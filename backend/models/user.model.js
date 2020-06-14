@@ -22,7 +22,7 @@ const userSchema = new Schema ({
     timestamps: true,
 });
 
-UserSchema.pre('save', function(next) {
+userSchema.pre('save', function(next) {
     var user = this;
 
     if (!user.isModified('password')) return next();
@@ -39,7 +39,7 @@ UserSchema.pre('save', function(next) {
     });
 });
 
-UserSchema.methods.comparePassword = function(newPassword, cb) {
+userSchema.methods.comparePassword = function(newPassword, cb) {
     bcrypt.compare(newPassword, this.password, function(err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
