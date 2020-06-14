@@ -11,8 +11,8 @@ export default class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
       evetns: [],
     };
   }
@@ -44,7 +44,8 @@ export default class Register extends Component {
       .then(res => console.log(res.data));
 
     this.setState({
-      username: "",
+      username: '',
+      password: '',
     });
   }
 

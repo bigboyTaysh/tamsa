@@ -3,17 +3,17 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css"
 
-import Navbar from "./components/navbar.component";
+import NavbarForUnauthenticated from "./components/navbar.component";
 import Register from "./components/register.component";
 
 function App() {
   return (
     <Router>
       <div className="container">
-        <Navbar/>
+        <NavbarForUnauthenticated/>
         <br/>
 
-        <Route path="/" exact component={Register}/>
+        <Route path="/register" exact component={Register}/>
       </div>
     </Router>
   );
