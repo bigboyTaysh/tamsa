@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"
 
 import Navbar from "./components/navbar.component";
-import UsersList from "./components/users-list.component";
+import Register from "./components/register.component";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Navbar/>
         <br/>
 
-        <Route path="/" exact component={UsersList}/>
+        <Route path="/" exact component={Register}/>
       </div>
     </Router>
   );
