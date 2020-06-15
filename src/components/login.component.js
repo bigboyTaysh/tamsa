@@ -47,7 +47,7 @@ export default class Login extends Component {
     };
 
     axios
-      .post("http://localhost:5000/users/login", user)
+      .post("http://192.168.1.21:5000/users/login", user)
       .then((res) => {
         if (res.data) {
             this.setState({
