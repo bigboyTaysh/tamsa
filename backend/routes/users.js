@@ -19,4 +19,20 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/login').post((req, res) => {
+    User.findOne({username: req.body.username}, (err, user) => {
+        if(err) res.status(400).json('Error: ' + err);
+        
+        if(user){
+            user.comparePassword(req.body.password, function (err, isMatch) {
+                if (err) throw err;
+
+                isMatch ? res.json(true) : res.json(false);
+            });
+        } else {
+            res.json(false);
+        }
+    });
+});
+
 module.exports = router;
