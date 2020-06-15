@@ -43,7 +43,7 @@ router.route("/login").post((req, res) => {
 });
 
 router.route("/logout").post((req, res) => {
-  req.session.username = false;
+  req.session.username = '';
   res.json(true);
 });
 
