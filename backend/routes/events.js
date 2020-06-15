@@ -1,11 +1,12 @@
 const router = require("express").Router();
 let Event = require("../models/event.model");
+let TypeOfEvent = require("../models/typeOfEvent.model");
 let User = require("../models/user.model");
 
-router.route("/").get((req, res) => {
-    User.find({username: req.username}, (err, user) => {
+router.route("/").post((req, res) => {
+    User.findOne({username: req.body.username}, (err, user) => {
         if(user){
-            Event.findById({id: {$in: user.events}}, (err, events) => {
+            Event.find({_id: {$in: user.events}}, (err, events) => {
                 if(events){
                     res.json(events);
                 } else {
@@ -18,23 +19,30 @@ router.route("/").get((req, res) => {
     });
 });
 
-router.route("/add").get((req, res) => {
+router.route("/add").post((req, res) => {
     User.findOne({username: req.body.username}, (err, user) => {
         if(user){
-            const newEvent = new Event({
-                title: req.body.title,
-                description: req.body.description,
-                completed: req.body.completed,
+            TypeOfEvent.findOne({name: req.body.type.name}, (err, type) => {
+                if(type){
+                    const newEvent = new Event({
+                        title: req.body.title,
+                        description: req.body.description,
+                        completed: req.body.completed,
+                        type: type,
+                    });
+        
+                    newEvent.save()
+                    .then(() => res.json("Event added!"))
+                    .catch((err) => res.status(400).json("Error: " + err));
+        
+                    user.events.push(newEvent);
+                    user.save()
+                    .then(() => res.json("Event added to user!"))
+                    .catch((err) => res.status(400).json("Error: " + err));
+                } else {
+                    res.status(400).json("Error: " + err);
+                }
             });
-
-            newEvent.save()
-            .then(() => res.json("Event added!"))
-            .catch((err) => res.status(400).json("Error: " + err));
-
-            user.events.push(newEvent);
-            user.save()
-            .then(() => res.json("Event added to user!"))
-            .catch((err) => res.status(400).json("Error: " + err));
 
         } else {
             res.status(400).json("Error: " + err);

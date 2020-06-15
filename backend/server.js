@@ -28,9 +28,11 @@ app.use(session({
 
 const usersRouter = require('./routes/users');
 const eventsRouter = require('./routes/events');
+const typeOfEventsRouter = require('./routes/typeOfEvents');
 
 app.use('/users', usersRouter);
 app.use('/events', eventsRouter);
+app.use('/typeOfEvents', typeOfEventsRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port : ${port}`);
