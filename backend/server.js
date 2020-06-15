@@ -19,20 +19,18 @@ connection.once('open', () => {
     console.log('MongoDB database connection established succesfully');
 });
 
+app.use(session({
+    key: 'username',
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    resave: false
+}));
+
 const usersRouter = require('./routes/users');
 //const eventsRouter = require('./routes/events');
 
 app.use('/users', usersRouter);
 //app.use('/events', eventsRouter);
-
-app.use(session({
-    key: 'username',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        expires: 600000
-    }
-}));
 
 app.listen(port, () => {
     console.log(`Server is running on port : ${port}`);

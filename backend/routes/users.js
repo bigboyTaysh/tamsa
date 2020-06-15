@@ -28,9 +28,13 @@ router.route("/login").post((req, res) => {
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (err) throw err;
 
-        req.session.loggedInStatus = true;
+        if(isMatch){
 
-        isMatch ? res.json(true) : res.json(false);
+          req.session.username = req.body.username;
+          res.json(true);
+        } else {
+          res.json(false);
+        }
       });
     } else {
       res.json(false);
@@ -39,12 +43,12 @@ router.route("/login").post((req, res) => {
 });
 
 router.route("/logout").post((req, res) => {
-  req.session.loggedInStatus = true;
+  req.session.username = false;
   res.json(true);
 });
 
 router.route("/login_status").post((req, res) => {
-    res.json(req.session.loggedInStatus);
+  req.session.username === req.body.username ? res.json(true) : res.json(false);
 });
 
 module.exports = router;
