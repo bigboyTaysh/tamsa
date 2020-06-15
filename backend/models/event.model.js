@@ -17,7 +17,8 @@ const eventSchema = new Schema ({
         type: Boolean
     },
     type: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'TypeOfEvent',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'TypeOfEvent',
     }
 }, {
     timestamps: true,
