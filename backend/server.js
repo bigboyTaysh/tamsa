@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const session = require('express-session');
 
 require('dotenv').config();
 
@@ -23,6 +24,15 @@ const usersRouter = require('./routes/users');
 
 app.use('/users', usersRouter);
 //app.use('/events', eventsRouter);
+
+app.use(session({
+    key: 'username',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 600000
+    }
+}));
 
 app.listen(port, () => {
     console.log(`Server is running on port : ${port}`);
