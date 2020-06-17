@@ -20,20 +20,6 @@ connection.once('open', () => {
     console.log('MongoDB database connection established succesfully');
 });
 
-app.set('trust proxy', 1);
-app.use(session({
-    key: 'username',
-    secret: process.env.SESSION_SECRET,
-    saveUninitialized: true,
-    resave: false,
-    cookie: {
-        path: '/',
-        httpOnly: true,
-        secure: false,
-        maxAge: null,
-    },
-}));
-
 const usersRouter = require('./routes/users');
 const eventsRouter = require('./routes/events');
 const typeOfEventsRouter = require('./routes/typeOfEvents');
@@ -47,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
+
 
 app.listen(port, () => {
     console.log(`Server is running on port : ${port}`);

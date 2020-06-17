@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export default class Home extends Component {
   constructor(props) {
@@ -13,18 +14,13 @@ export default class Home extends Component {
   }
 
   checkLoginStatus() { 
-    if (typeof(this.state.username) !== "undefined" && this.state.username !== undefined && this.state.username !== null ) {
-      axios
-        .post("https://tamsa.herokuapp.com/users/login_status", this.state.username)
-        .then((res) => {
-          this.setState({
-            loggedInStatus: res.data,
-          });
-        });
-    }
+   this.setState({
+    loggedInStatus: Cookies.get('loggedInStatus'),
+    username: Cookies.get('username'),
+  });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.checkLoginStatus();
   }
 

@@ -37,14 +37,8 @@ router.route("/login").post((req, res) => {
     if (user) {
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (err) throw err;
-
         if(isMatch){
-
-          req.session.regenerate(function(err) {
-            req.session.username = req.body.username;
-            res.json(true);
-          })
-          
+          res.json(true);
         } else {
           res.json(false);
         }
@@ -52,22 +46,20 @@ router.route("/login").post((req, res) => {
     } else {
       res.json(false);
     }
-
     res.status(200);
   });
 });
 
 router.route("/logout").post((req, res) => {
-  req.session.username = '';
   res.json(true);
-  res.status(200).end();
-  req.session.destroy();
+  res.status(200);
 });
 
+/*
 router.route("/login_status").post((req, res) => {
-  console.log('ses: ' + req.session.username)
   req.session.username ? res.json(true) : res.json(false);
   res.status(200);
 });
+*/
 
 module.exports = router;
