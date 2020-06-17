@@ -52,7 +52,7 @@ export default class Register extends Component {
     } else {
       
       axios
-        .post("http://192.168.1.21:5000/users/add", user)
+        .post("https://localhost:5000/users/add", user)
         .then((res) => console.log(res.data));
       
 

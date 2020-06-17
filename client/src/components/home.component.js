@@ -14,10 +14,8 @@ export default class Home extends Component {
 
   checkLoginStatus() { 
     if (typeof(this.state.username) !== "undefined" && this.state.username !== undefined && this.state.username !== null ) {
-      console.log("wysyłam: " + this.state.username);
-      console.log("wysyłam: " + this.state.loggedInStatus);
       axios
-        .post("http://localhost:5000/users/login_status", this.state.username)
+        .post("https://localhost:5000/users/login_status", this.state.username)
         .then((res) => {
           console.log("odebrałem:" + res.data);
           this.setState({
