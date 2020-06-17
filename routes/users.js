@@ -16,7 +16,10 @@ router.route("/add").post((req, res) => {
 
   newUser
     .save()
-    .then(() => res.json("User added!"))
+    .then(() => {
+      res.json("User added!");
+      res.status(200).end();
+    })
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
@@ -32,8 +35,10 @@ router.route("/login").post((req, res) => {
 
           req.session.username = req.body.username;
           res.json(true);
+          res.status(200).end();
         } else {
           res.json(false);
+          res.status(200).end();
         }
       });
     } else {
@@ -45,10 +50,12 @@ router.route("/login").post((req, res) => {
 router.route("/logout").post((req, res) => {
   req.session.username = '';
   res.json(true);
+  res.status(200).end();
 });
 
 router.route("/login_status").post((req, res) => {
   req.session.username === req.body.username ? res.json(true) : res.json(false);
+  res.status(200).end();
 });
 
 module.exports = router;
