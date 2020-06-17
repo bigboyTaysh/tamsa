@@ -52,7 +52,7 @@ export default class Register extends Component {
     } else {
       
       axios
-        .post("https://localhost:5000/users/add", user)
+        .post("https://tam-sheduler.herokuapp.com/users/add", user)
         .then((res) => console.log(res.data));
       
 
