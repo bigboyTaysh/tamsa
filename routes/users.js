@@ -36,12 +36,12 @@ router.route("/login").post((req, res) => {
           req.session.regenerate(function(err) {
             req.session.username = req.body.username;
             res.json(true);
-            res.status(200).end();
+            res.status(200);
           })
           
         } else {
           res.json(false);
-          res.status(200).end();
+          res.status(200);
         }
       });
     } else {
@@ -60,7 +60,7 @@ router.route("/logout").post((req, res) => {
 router.route("/login_status").post((req, res) => {
   console.log('ses: ' + req.session.username)
   req.session.username === req.body.username ? res.json(true) : res.json(false);
-  res.status(200).end();
+  res.status(200);
 });
 
 module.exports = router;
