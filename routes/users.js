@@ -54,6 +54,7 @@ router.route("/logout").post((req, res) => {
 });
 
 router.route("/login_status").post((req, res) => {
+  
   req.session.username === req.body.username ? res.json(true) : res.json(false);
   res.status(200).end();
 });
