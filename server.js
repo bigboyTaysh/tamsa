@@ -7,8 +7,6 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
-app.set('trust proxy', 1);
-
 const port = process.env.PORT || 5000;
 
 app.use(cors());
@@ -22,11 +20,18 @@ connection.once('open', () => {
     console.log('MongoDB database connection established succesfully');
 });
 
+app.set('trust proxy', 1);
 app.use(session({
     key: 'username',
     secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
-    resave: false
+    resave: false,
+    cookie: {
+        path: '/',
+        httpOnly: true,
+        secure: false,
+        maxAge: null,
+    },
 }));
 
 const usersRouter = require('./routes/users');
