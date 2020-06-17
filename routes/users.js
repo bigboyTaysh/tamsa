@@ -8,7 +8,7 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-  User.find({ username: req.body.username }, (err, user) => {
+  User.findOne({ username: req.body.username }, (err, user) => {
     if(user){
       res.json(false);
     } else {
