@@ -14,9 +14,11 @@ export default class Home extends Component {
 
   checkLoginStatus() { 
     if (typeof(this.state.username) !== "undefined" && this.state.username !== undefined && this.state.username !== null ) {
+      console.log('wysyłam: ' + this.state.username);
       axios
         .post("https://tam-sheduler.herokuapp.com/users/login_status", this.state.username)
         .then((res) => {
+          console.log('odbieram: ' + res.data);
           this.setState({
             loggedInStatus: res.data,
           });
