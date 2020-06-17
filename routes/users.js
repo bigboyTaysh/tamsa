@@ -8,19 +8,26 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-  const newUser = new User({
-    username: req.body.username,
-    password: req.body.password,
-    events: [],
-  });
+  User.find({ username: req.body.username }, (err, user) => {
+    if(user){
+      res.json(false);
+    } else {
+      const newUser = new User({
+        username: req.body.username,
+        password: req.body.password,
+        events: [],
+      });
+    
+      newUser
+        .save()
+        .then(() => {
+          res.json(true);
+        })
+        .catch((err) => res.status(400).json("Error: " + err));
+    }
 
-  newUser
-    .save()
-    .then(() => {
-      res.json("User added!");
-      res.status(200).end();
-    })
-    .catch((err) => res.status(400).json("Error: " + err));
+    res.status(200);
+  });
 });
 
 router.route("/login").post((req, res) => {
@@ -36,17 +43,17 @@ router.route("/login").post((req, res) => {
           req.session.regenerate(function(err) {
             req.session.username = req.body.username;
             res.json(true);
-            res.status(200);
           })
           
         } else {
           res.json(false);
-          res.status(200);
         }
       });
     } else {
       res.json(false);
     }
+
+    res.status(200);
   });
 });
 

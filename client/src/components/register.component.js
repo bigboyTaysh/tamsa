@@ -52,18 +52,23 @@ export default class Register extends Component {
     } else {
       
       axios
-        .post("https://tam-sheduler.herokuapp.com/users/add", user)
-        .then((res) => console.log(res.data));
+        .post("https://tamsa.herokuapp.com/users/add", user)
+        .then((res) => {
+          if(res.data){
+            this.setState({
+              username: "",
+              password: "",
+              confirmPassword: "",
+              registrationError: "",
+            });
       
-
-      this.setState({
-        username: "",
-        password: "",
-        confirmPassword: "",
-        registrationError: "",
-      });
-
-      this.props.history.push("/login");
+            this.props.history.push("/login");
+          } else {
+            this.setState({
+              registrationError: "Podany login istnieje",
+            });
+          }
+        });
     }
   }
 
