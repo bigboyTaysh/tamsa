@@ -47,7 +47,7 @@ export default class Login extends Component {
     };
 
     axios
-      .post("https://tamsa.herokuapp.com/users/login", user)
+      .post("http://localhost:5000/users/login", user)
       .then((res) => {
         if (res.data) {
             this.setState({

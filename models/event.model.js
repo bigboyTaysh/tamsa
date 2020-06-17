@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
+let TypeOfEvent = require("../models/typeOfEvent.model");
 
 const eventSchema = new Schema ({
     title: {
