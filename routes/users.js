@@ -33,9 +33,12 @@ router.route("/login").post((req, res) => {
 
         if(isMatch){
 
-          req.session.username = req.body.username;
-          res.json(true);
-          res.status(200).end();
+          req.session.regenerate(function(err) {
+            req.session.username = req.body.username;
+            res.json(true);
+            res.status(200).end();
+          })
+          
         } else {
           res.json(false);
           res.status(200).end();
@@ -51,10 +54,11 @@ router.route("/logout").post((req, res) => {
   req.session.username = '';
   res.json(true);
   res.status(200).end();
+  req.session.destroy();
 });
 
 router.route("/login_status").post((req, res) => {
-  
+
   req.session.username === req.body.username ? res.json(true) : res.json(false);
   res.status(200).end();
 });
