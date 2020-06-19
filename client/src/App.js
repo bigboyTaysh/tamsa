@@ -9,6 +9,7 @@ import Login from "./components/login.component";
 import Home from "./components/home.component";
 import Logout from "./components/logout.component";
 import Navbar from "./components/navbar.component";
+import AddEvent from "./components/addEvent.component";
 
 export default class App extends Component {
   constructor(props) {
@@ -46,7 +47,6 @@ export default class App extends Component {
             loggedInStatus={this.state.loggedInStatus}
             updateHandler={this.updateHandler}
           />
-          <Switch>
             <Route
               path="/login" 
               render={(props) => <Login updateHandler={this.updateHandler} {...props}/>}
@@ -56,10 +56,12 @@ export default class App extends Component {
               path="/logout"
               component={Logout}
             />
-            <Route path="/"
+            <Route path="/" exact
               render={(props) => <Home username={this.state.username} loggedInStatus={this.state.loggedInStatus} {...props}/>}
             />
-          </Switch>
+            <Route path="/addEvent"
+              render={(props) => <AddEvent username={this.state.username} loggedInStatus={this.state.loggedInStatus} {...props}/>}
+            />
           <br />
         </div>
       </Router>

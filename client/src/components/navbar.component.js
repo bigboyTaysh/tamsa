@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import AddEvent from "./addEvent.component";
 
 export default class Navbar extends Component {
   constructor(props) {
@@ -30,6 +31,11 @@ export default class Navbar extends Component {
               <li className="navbar-item">
                 <Link to="/" className="nav-link">
                   Home
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link to="/addEvent" className="nav-link">
+                  Dodaj zdarzenie
                 </Link>
               </li>
               <li>
