@@ -9,30 +9,24 @@ export default class EventList extends Component {
 
     this.state = {
       username: this.props.username,
-      events: this.props.events
+      events: this.props.events,
     };
   }
 
   render() {
-      return (
-        <table>
-            {this.props.events.map(item => 
+    return (
+      <table>
+        <tbody>
+          {this.props.events.map((item) => (
             <tr>
-                <td key={item.title}>
-                    {item.title}
-                </td>
-                <td key={item.description}>
-                    {item.description}
-                </td>
-                <td key={item.completed}>
-                    {item.completed}
-                </td>
-                <td key={item.type.name}>
-                    {item.type.name}
-                </td>
+              <td key={item.title}>{item.title}</td>
+              <td key={item.description}>{item.description}</td>
+              <td key={item.completed}>{item.completed}</td>
+              <td key={item.type.name}>{item.type.name}</td>
             </tr>
-            )}
-        </table>
-      );
+          ))}
+        </tbody>
+      </table>
+    );
   }
 }
