@@ -25,9 +25,9 @@ export default class Home extends Component {
 
   getUserEventsList(){
     axios
-      .post("http://localhost:5000/events", {username: this.state.username})
+      .get("http://localhost:5000/events", {params: {username: this.state.username}})
       .then((res) => {
-        if (res.data) {
+        if (res.data && res.data != []) {
             this.setState({
               events: res.data
             });

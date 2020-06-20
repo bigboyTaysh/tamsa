@@ -1,7 +1,7 @@
 const router = require("express").Router();
 let TypeOfEvent = require("../models/typeOfEvent.model");
 
-router.route("/").post((req, res) => {
+router.route("/").get((req, res) => {
   TypeOfEvent.find({}, (err, types) => {
     if (types) {
       res.json(types);

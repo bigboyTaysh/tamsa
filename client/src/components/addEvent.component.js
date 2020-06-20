@@ -56,7 +56,7 @@ export default class AddEvent extends Component {
   componentDidMount() {
     this.checkLoginStatus();
 
-    axios.post("http://localhost:5000/typeOfEvents").then((res) => {
+    axios.get("http://localhost:5000/typeOfEvents").then((res) => {
       if (res.data) {
         this.setState({
           type: res.data,

@@ -3,8 +3,9 @@ let Event = require("../models/event.model");
 let TypeOfEvent = require("../models/typeOfEvent.model");
 let User = require("../models/user.model");
 
-router.route("/").post((req, res) => {
-    User.findOne({username: req.body.username}, (err, user) => {
+router.route("/").get((req, res) => {
+    console.log(req.query.username);
+    User.findOne({username: req.query.username}, (err, user) => {
         if(user){
             Event.find({_id: {$in: user.events}}).populate('type', 'name').exec(function (err, events) {
                 if(events){
