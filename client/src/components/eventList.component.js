@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 export default class EventList extends Component {
   constructor(props) {
@@ -12,6 +10,10 @@ export default class EventList extends Component {
       events: this.props.events,
       removestatus: "",
     };
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({ events: props.events });  
   }
 
   handleDelete(id) {

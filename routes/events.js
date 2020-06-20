@@ -30,7 +30,7 @@ router.route("/add").post((req, res) => {
             title: req.body.title,
             description: req.body.description,
             completed: req.body.completed,
-            date: req.body.date,
+            date: new Date(req.body.date),
             type: type,
           });
 
@@ -61,19 +61,19 @@ router.route("/add").post((req, res) => {
 router.route("/upcomingEvents").get((req, res) => {
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
-        
       Event.find({
         _id: {
           $in: user.events,
         },
-        validUntil: { 
-            $gte: req.query.start,
-            $lte: req.query.end
+        date: {
+          $gte: new Date(req.query.start),
+          $lte: new Date(req.query.end)
         },
       })
         .populate("type", "name")
         .exec(function (err, events) {
           if (events) {
+              console.log(events);
             res.status(200).json(events);
           } else {
             res.status(400).json("Error: " + err);

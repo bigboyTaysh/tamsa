@@ -8,23 +8,21 @@ export default class AddEvent extends Component {
   constructor(props) {
     super(props);
 
-    var newDate = new Date() + (new Date().getTimezoneOffset() / 600);
-    var dateWithTimezoneOffset = moment(newDate).second(0).millisecond(0);
-    var dateISO = dateWithTimezoneOffset.toISOString().slice(0, -1);
+    var dateWithTimezoneOffset = moment(new Date()).format("YYYY-MM-DDTHH:mm");
+
 
     this.state = {
       username: this.props.username,
       loggedInStatus: this.props.loggedInStatus,
       title: "",
       description: "",
-      date: dateISO,
+      date: dateWithTimezoneOffset,
       type: [],
       typename: "",
       addStatus: "",
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -34,41 +32,10 @@ export default class AddEvent extends Component {
     });
   }
 
-  handleSelectChange(event) {
-    this.setState({
-      typename: event.target.value,
-    });
-  }
-
   checkLoginStatus() {
     this.setState({
       loggedInStatus: Cookies.get("loggedInStatus"),
       username: Cookies.get("username"),
-    });
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-
-    const event = {
-      username: this.state.username,
-      title: this.state.title,
-      description: this.state.description,
-      completed: false,
-      date: this.state.date,
-      type: this.state.typename,
-    };
-
-    this.setState({
-      addStatus: "Pomyślnie dodano " + this.state.typename,
-      title: "",
-      description: "",
-    });
-
-    axios.post("http://localhost:5000/events/add", event).catch((error) => {
-      this.setState({
-        addStatus: error.data,
-      });
     });
   }
 
@@ -94,6 +61,31 @@ export default class AddEvent extends Component {
           addStatus: error.date,
         });
       });
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+
+    const event = {
+      username: this.state.username,
+      title: this.state.title,
+      description: this.state.description,
+      completed: false,
+      date: this.state.date,
+      type: this.state.typename,
+    };
+
+    this.setState({
+      addStatus: "Pomyślnie dodano " + this.state.typename,
+      title: "",
+      description: "",
+    });
+
+    axios.post("http://localhost:5000/events/add", event).catch((error) => {
+      this.setState({
+        addStatus: error.data,
+      });
+    });
   }
 
   render() {
@@ -126,7 +118,7 @@ export default class AddEvent extends Component {
             </div>
 
             <div className="form-group">
-              <label>Date: </label>
+              <label>Data: </label>
               <div>
                 <input
                   type="datetime-local"
@@ -144,8 +136,8 @@ export default class AddEvent extends Component {
               <select
                 required
                 className="form-control"
-                name="type"
-                onChange={this.handleSelectChange}
+                name="typename"
+                onChange={this.handleInputChange}
               >
                 {this.state.type.map((type) => {
                   return (
