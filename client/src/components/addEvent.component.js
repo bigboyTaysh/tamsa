@@ -96,7 +96,7 @@ export default class AddEvent extends Component {
     if (this.state.loggedInStatus) {
       return (
         <div>
-          <h1 class="message">{this.state.addStatus}</h1>
+          <div className="message">{this.state.addStatus}</div>
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <label>Tytuł: </label>
@@ -146,7 +146,7 @@ export default class AddEvent extends Component {
               >
                 {this.state.type.map((type) => {
                   return (
-                    <option key={type.name} value={type.name}>
+                    <option key={type._id} value={type.name}>
                       {type.name}
                     </option>
                   );

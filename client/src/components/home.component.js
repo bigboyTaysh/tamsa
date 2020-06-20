@@ -56,7 +56,12 @@ export default class Home extends Component {
         <React.Fragment>
           <h1>Cześć {this.state.username}</h1>
           {this.state.loading ? (
-            <div>Ładowanie..</div>
+            <div className="message">
+              
+              <i className="fa fa-spinner fa-spin"></i>
+              {" "}
+              Ładowanie..
+            </div>
           ) : (
             <EventList username={this.state.username} events={this.state.events}/>
           )}

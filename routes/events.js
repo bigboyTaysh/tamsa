@@ -52,8 +52,9 @@ router.route("/add").post((req, res) => {
 
 router.route("/delete").delete((req, res) => {
     Event.findByIdAndDelete(req.body.id)
-    .catch((err) => res.status(400).json("Error, unable to delete event: " + err));
-    res.status(200);
+    .then(() => res.status(200).json('Event deleted'))
+    .catch((err) => res.status(204).json("Unable to delete event: " + err));
+    
 });
 
 module.exports = router;
