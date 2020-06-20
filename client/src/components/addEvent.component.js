@@ -42,31 +42,57 @@ export default class AddEvent extends Component {
     });
   }
 
-  onSubmit(event) {
-    event.preventDefault();
+  onSubmit(e) {
+    e.preventDefault();
 
-    this.setState({
-      addStatus: "Dodano zdarzenie " + this.state.typename,
-      title: "",
-      description: "",
-      date: new Date(),
-    });
+    console.log(this.state.typename);
+
+    const event = {
+      username: this.state.username,
+      title: this.state.title,
+      description: this.state.description,
+      completed: false,
+      date: this.state.date,
+      type: this.state.typename,
+    };
+
+    console.log(event);
+
+    axios
+      .post("http://localhost:5000/events/add", event)
+      .catch(error => {
+        this.setState({
+          addStatus: error.date,
+        });
+      });
+
+      this.setState({
+        addStatus: "Pomyślnie dodano " + this.state.typename,
+        title: "",
+        description: "",
+      });
   }
 
   componentDidMount() {
     this.checkLoginStatus();
 
-    axios.get("http://localhost:5000/typeOfEvents").then((res) => {
+    axios.get("http://localhost:5000/typeOfEvents")
+    .then((res) => {
       if (res.data) {
         this.setState({
           type: res.data,
-          typename: res.data[0].name
+          typename: res.data[0].name,
         });
       } else {
         this.setState({
           events: "Brak zdarzeń",
         });
       }
+    })
+    .catch(error => {
+      this.setState({
+        addStatus: error.date,
+      });
     });
   }
 
@@ -116,16 +142,15 @@ export default class AddEvent extends Component {
             <div className="form-group">
               <label>Typ zdarzenia: </label>
               <select
-                ref="TypeOfEvent"
                 required
                 className="form-control"
                 name="type"
                 value={this.state.typename}
                 onChange={this.handleSelectChange}
               >
-                {this.state.type.map((type, id) => {
+                {this.state.type.map((type) => {
                   return (
-                    <option key={id} value={type.name}>
+                    <option key={type.name} value={type.name}>
                       {type.name}
                     </option>
                   );

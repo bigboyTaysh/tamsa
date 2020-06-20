@@ -17,12 +17,20 @@ export default class EventList extends Component {
     return (
       <table>
         <tbody>
-          {this.props.events.map((item) => (
-            <tr>
-              <td key={item.title}>{item.title}</td>
-              <td key={item.description}>{item.description}</td>
-              <td key={item.completed}>{item.completed}</td>
-              <td key={item.type.name}>{item.type.name}</td>
+          {this.props.events.map((item, id) => (
+            <tr key={id}>
+              <td>{item.title}</td>
+              <td>{item.description}</td>
+              <td>{new Date(item.date).toLocaleDateString([], {
+                hour: '2-digit',
+                minute:'2-digit',
+                weekday: "long",
+                year: "numeric",
+                month: "2-digit",
+                day: "numeric",
+                formatMatcher: "best fit"
+                })}</td>
+              <td>{item.type.name}</td>
             </tr>
           ))}
         </tbody>

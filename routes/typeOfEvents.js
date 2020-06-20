@@ -4,11 +4,9 @@ let TypeOfEvent = require("../models/typeOfEvent.model");
 router.route("/").get((req, res) => {
   TypeOfEvent.find({}, (err, types) => {
     if (types) {
-      res.json(types);
-      res.status(200).end();
+      res.status(200).json(types);
     } else {
-      res.json("Not found");
-      res.status(200).end();
+      res.status(400).json("Not found");
     }
   });
 });
@@ -20,8 +18,7 @@ router.route("/add").post((req, res) => {
 
     newTypeOfEvent.save()
     .then(() => {
-      res.json("Type of event added!");
-      res.status(200).end();
+      res.status(200).json("Type of event added!");
     })
     .catch((err) => res.status(400).json("Error: " + err));
   });
