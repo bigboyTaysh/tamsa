@@ -12,6 +12,7 @@ import Home from "./components/home.component";
 import Logout from "./components/logout.component";
 import Navbar from "./components/navbar.component";
 import AddEvent from "./components/addEvent.component";
+import UpcomingEvents from "./components/upcomingEvents.component";
 
 export default class App extends Component {
   constructor(props) {
@@ -75,6 +76,17 @@ export default class App extends Component {
             path="/addEvent"
             render={(props) => (
               <AddEvent
+                username={this.state.username}
+                loggedInStatus={this.state.loggedInStatus}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/upcomingEvents"
+            exact
+            render={(props) => (
+              <UpcomingEvents
                 username={this.state.username}
                 loggedInStatus={this.state.loggedInStatus}
                 {...props}

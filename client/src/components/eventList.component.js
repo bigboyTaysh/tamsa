@@ -10,7 +10,7 @@ export default class EventList extends Component {
     this.state = {
       username: this.props.username,
       events: this.props.events,
-      removestatus: ""
+      removestatus: "",
     };
   }
 
@@ -23,7 +23,10 @@ export default class EventList extends Component {
       })
       .then((res) => {
         var array = this.state.events;
-        array.splice(array.findIndex((x) => x._id === id), 1);
+        array.splice(
+          array.findIndex((x) => x._id === id),
+          1
+        );
         this.setState({ events: array });
       })
       .catch((error) => {
@@ -35,38 +38,44 @@ export default class EventList extends Component {
 
   render() {
     return (
-      <table>
-        <tbody>
-          {this.state.events.map((item) => (
-            <tr key={item._id}>
-              <td>{item.title}</td>
-              <td>{item.description}</td>
-              <td>
-                {new Date(item.date).toLocaleDateString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  weekday: "long",
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "numeric",
-                  formatMatcher: "best fit",
-                })}
-              </td>
-              <td>{item.type.name}</td>
-              <td>
-                <button
-                  className="none"
-                  onClick={() => {
-                    this.handleDelete(item._id);
-                  }}
-                >
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <React.Fragment>
+        {this.state.events.length === 0 ? (
+          <h1>Brak wydarzeń</h1>
+        ) : (
+          <table>
+            <tbody>
+              {this.state.events.map((item) => (
+                <tr key={item._id}>
+                  <td>{item.title}</td>
+                  <td>{item.description}</td>
+                  <td>
+                    {new Date(item.date).toLocaleDateString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      weekday: "long",
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "numeric",
+                      formatMatcher: "best fit",
+                    })}
+                  </td>
+                  <td>{item.type.name}</td>
+                  <td>
+                    <button
+                      className="none"
+                      onClick={() => {
+                        this.handleDelete(item._id);
+                      }}
+                    >
+                      <i className="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </React.Fragment>
     );
   }
 }

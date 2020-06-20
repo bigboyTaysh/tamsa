@@ -2,18 +2,22 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import moment from 'moment';
+import * as moment from 'moment';
 
 export default class AddEvent extends Component {
   constructor(props) {
     super(props);
+
+    var newDate = new Date() + (new Date().getTimezoneOffset() / 600);
+    var dateWithTimezoneOffset = moment(newDate).second(0).millisecond(0);
+    var dateISO = dateWithTimezoneOffset.toISOString().slice(0, -1);
 
     this.state = {
       username: this.props.username,
       loggedInStatus: this.props.loggedInStatus,
       title: "",
       description: "",
-      date: moment().seconds(0).milliseconds(0).toISOString().slice(0, -1),
+      date: dateISO,
       type: [],
       typename: "",
       addStatus: "",

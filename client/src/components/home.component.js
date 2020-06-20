@@ -28,15 +28,11 @@ export default class Home extends Component {
     axios
       .get("http://localhost:5000/events", {params: {username: this.state.username}})
       .then((res) => {
-        if (res.data && res.data != []) {
+        if (res.data) {
             this.setState({
               loading: false,
               events: res.data
             });
-        } else {
-            this.setState({
-                events: "Brak zdarzeń",
-              });
         }
       });
   }

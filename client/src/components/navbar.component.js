@@ -38,6 +38,11 @@ export default class Navbar extends Component {
                   Dodaj zdarzenie
                 </Link>
               </li>
+              <li className="navbar-item right">
+                <Link to="/upcomingEvents" className="nav-link">
+                  Nadchodzące wydarzenia
+                </Link>
+              </li>
             </ul>
             <ul className="navbar-nav navbar-right">
               <li className="navbar-item">
