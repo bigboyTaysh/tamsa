@@ -44,7 +44,6 @@ router.route("/add").post((req, res) => {
                     res.status(404).json("Error: " + err);
                 }
             });
-
         } else {
             res.status(404).json("Error: " + err);
         }

@@ -12,6 +12,7 @@ export default class Home extends Component {
     this.state = {
       username: this.props.username,
       loggedInStatus: this.props.loggedInStatus,
+      loading: true,
       events: []
     };
   }
@@ -29,6 +30,7 @@ export default class Home extends Component {
       .then((res) => {
         if (res.data && res.data != []) {
             this.setState({
+              loading: false,
               events: res.data
             });
         } else {
@@ -40,6 +42,7 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
+
     this.checkLoginStatus();
   }
 
@@ -51,8 +54,12 @@ export default class Home extends Component {
     if (this.state.loggedInStatus) {
       return (
         <React.Fragment>
-          <h1>ELOO {this.state.username}</h1>
-          <EventList username={this.state.username} events={this.state.events}/>
+          <h1>Cześć {this.state.username}</h1>
+          {this.state.loading ? (
+            <div>Ładowanie..</div>
+          ) : (
+            <EventList username={this.state.username} events={this.state.events}/>
+          )}
         </React.Fragment>
       );
     } else {

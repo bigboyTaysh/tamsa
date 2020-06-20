@@ -45,8 +45,6 @@ export default class AddEvent extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    console.log(this.state.typename);
-
     const event = {
       username: this.state.username,
       title: this.state.title,
@@ -56,20 +54,18 @@ export default class AddEvent extends Component {
       type: this.state.typename,
     };
 
-    console.log(event);
+    this.setState({
+      addStatus: "Pomyślnie dodano " + this.state.typename,
+      title: "",
+      description: "",
+    });
 
     axios
       .post("http://localhost:5000/events/add", event)
       .catch(error => {
         this.setState({
-          addStatus: error.date,
+          addStatus: error.data,
         });
-      });
-
-      this.setState({
-        addStatus: "Pomyślnie dodano " + this.state.typename,
-        title: "",
-        description: "",
       });
   }
 
@@ -100,7 +96,7 @@ export default class AddEvent extends Component {
     if (this.state.loggedInStatus) {
       return (
         <div>
-          <h1>{this.state.addStatus}</h1>
+          <h1 class="message">{this.state.addStatus}</h1>
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <label>Tytuł: </label>

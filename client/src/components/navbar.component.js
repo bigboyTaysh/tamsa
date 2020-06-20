@@ -28,7 +28,7 @@ export default class Navbar extends Component {
           </Link>
           <div className="collpase navbar-collapse">
             <ul className="navbar-nav mr-auto">
-              <li className="navbar-item">
+              <li className="navbar-item right">
                 <Link to="/" className="nav-link">
                   Home
                 </Link>
@@ -38,7 +38,9 @@ export default class Navbar extends Component {
                   Dodaj zdarzenie
                 </Link>
               </li>
-              <li>
+            </ul>
+            <ul className="navbar-nav navbar-right">
+              <li className="navbar-item">
                 <Link
                   to="/logout"
                   className="nav-link"
@@ -56,11 +58,15 @@ export default class Navbar extends Component {
     } else {
       return (
         <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-          <Link to="/" className="navbar-brand">
-            Terminarz
-          </Link>
           <div className="collpase navbar-collapse">
             <ul className="navbar-nav mr-auto">
+              <li>
+                <Link to="/" className="navbar-brand">
+                  Terminarz
+                </Link>
+              </li>
+            </ul>
+            <ul className="navbar-nav navbar-right">
               <li className="navbar-item">
                 <Link to="/login" className="nav-link">
                   Login
