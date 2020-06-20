@@ -10,9 +10,9 @@ router.route("/").get((req, res) => {
             Event.find({_id: {$in: user.events}}).populate('type', 'name').exec(function (err, events) {
                 if(events){
                     console.log(events);
-                    res.json(events);
+                    res.status(200).json(events);
                 } else {
-                    res.json("Not found");
+                    res.status(200).json("Not found");
                 }
             });
         } else {
@@ -34,13 +34,13 @@ router.route("/add").post((req, res) => {
                     });
         
                     newEvent.save()
-                    .then(() => res.json("Event added!"))
                     .catch((err) => res.status(400).json("Error: " + err));
         
                     user.events.push(newEvent);
                     user.save()
-                    .then(() => res.json("Event added to user!"))
                     .catch((err) => res.status(400).json("Error: " + err));
+
+                    res.status(201).json("Event added!");
                 } else {
                     res.status(400).json("Error: " + err);
                 }

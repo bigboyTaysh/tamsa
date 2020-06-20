@@ -1,12 +1,6 @@
 const router = require("express").Router();
 let User = require("../models/user.model");
 
-router.route("/").get((req, res) => {
-  User.find()
-    .then((users) => res.json(users))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
-
 router.route("/add").post((req, res) => {
   User.findOne({ username: req.body.username }, (err, user) => {
     if(user){
@@ -21,12 +15,10 @@ router.route("/add").post((req, res) => {
       newUser
         .save()
         .then(() => {
-          res.json(true);
+          res.status(201).json(true);
         })
         .catch((err) => res.status(400).json("Error: " + err));
     }
-
-    res.status(200);
   });
 });
 
@@ -49,17 +41,5 @@ router.route("/login").post((req, res) => {
     res.status(200);
   });
 });
-
-router.route("/logout").post((req, res) => {
-  res.json(true);
-  res.status(200);
-});
-
-/*
-router.route("/login_status").post((req, res) => {
-  req.session.username ? res.json(true) : res.json(false);
-  res.status(200);
-});
-*/
 
 module.exports = router;
