@@ -10,6 +10,7 @@ export default class EventList extends Component {
     this.state = {
       username: this.props.username,
       events: this.props.events,
+      removestatus: ""
     };
   }
 
@@ -27,7 +28,7 @@ export default class EventList extends Component {
       })
       .catch((error) => {
         this.setState({
-          addStatus: error.date,
+          removestatus: error.date,
         });
       });
   }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import moment from 'moment';
 
 export default class AddEvent extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ export default class AddEvent extends Component {
       loggedInStatus: this.props.loggedInStatus,
       title: "",
       description: "",
-      date: new Date(),
+      date: moment().seconds(0).milliseconds(0).toISOString().slice(0, -1),
       type: [],
       typename: "",
       addStatus: "",
@@ -60,36 +61,35 @@ export default class AddEvent extends Component {
       description: "",
     });
 
-    axios
-      .post("http://localhost:5000/events/add", event)
-      .catch(error => {
-        this.setState({
-          addStatus: error.data,
-        });
+    axios.post("http://localhost:5000/events/add", event).catch((error) => {
+      this.setState({
+        addStatus: error.data,
       });
+    });
   }
 
   componentDidMount() {
     this.checkLoginStatus();
 
-    axios.get("http://localhost:5000/typeOfEvents")
-    .then((res) => {
-      if (res.data) {
+    axios
+      .get("http://localhost:5000/typeOfEvents")
+      .then((res) => {
+        if (res.data) {
+          this.setState({
+            type: res.data,
+            typename: res.data[0].name,
+          });
+        } else {
+          this.setState({
+            events: "Brak zdarzeń",
+          });
+        }
+      })
+      .catch((error) => {
         this.setState({
-          type: res.data,
-          typename: res.data[0].name,
+          addStatus: error.date,
         });
-      } else {
-        this.setState({
-          events: "Brak zdarzeń",
-        });
-      }
-    })
-    .catch(error => {
-      this.setState({
-        addStatus: error.date,
       });
-    });
   }
 
   render() {
@@ -129,7 +129,7 @@ export default class AddEvent extends Component {
                   required
                   className="form-control"
                   name="date"
-                  selected={this.state.date}
+                  value={this.state.date}
                   onChange={this.handleInputChange}
                 />
               </div>
@@ -141,7 +141,6 @@ export default class AddEvent extends Component {
                 required
                 className="form-control"
                 name="type"
-                value={this.state.typename}
                 onChange={this.handleSelectChange}
               >
                 {this.state.type.map((type) => {
