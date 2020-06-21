@@ -32,7 +32,7 @@ export default class Navbar extends Component {
                 </Link>
               </li>
               <li className="navbar-item right">
-                <Link to="/filterEvents" className="nav-link">
+                <Link to="/searchEvents" className="nav-link">
                   Szukaj
                 </Link>
               </li>

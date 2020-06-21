@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import EventList from "./eventList.component";
 import moment from "moment";
 
-export default class FilterEvents extends Component {
+export default class SearchEvents extends Component {
   constructor(props) {
     super(props);
 
@@ -65,7 +65,7 @@ export default class FilterEvents extends Component {
     };
 
     axios
-      .get(""+ process.env.REACT_APP_API + "/events/byValues", {
+      .get(""+ process.env.REACT_APP_API + "/events/search", {
         params: event,
       })
       .then((res) => {
@@ -92,7 +92,7 @@ export default class FilterEvents extends Component {
           this.setState(
             {
               type: res.data,
-              typename: res.data[0].name,
+              typename: '',
             },
             function () {
               this.getUserEventsList();
@@ -169,6 +169,9 @@ export default class FilterEvents extends Component {
                   name="typename"
                   onChange={this.handleInputChange}
                 >
+                  <option value={''}>
+                        {'wszystkie'}
+                      </option>
                   {this.state.type.map((type) => {
                     return (
                       <option key={type._id} value={type.name}>
