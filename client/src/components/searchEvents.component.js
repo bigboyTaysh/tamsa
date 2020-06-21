@@ -53,6 +53,10 @@ export default class SearchEvents extends Component {
     );
   }
 
+  getEventsByDay(){
+    
+  }
+
   getUserEventsList() {
     const event = {
       username: this.state.username,

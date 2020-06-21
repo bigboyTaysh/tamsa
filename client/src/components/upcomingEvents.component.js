@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import EventList from "./eventList.component";
 import moment from "moment";
+import 'moment/locale/pl';
 
 export default class UpcomingEvents extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ export default class UpcomingEvents extends Component {
       .get("" + process.env.REACT_APP_API + "/events/upcomingEvents", {
         params: {
           username: this.state.username,
-          start: this.state.start
+          start: this.state.start,
         },
       })
       .then((res) => {
@@ -47,23 +48,54 @@ export default class UpcomingEvents extends Component {
       });
   }
 
+  getEventsByDates(startDate, stopDate) {
+    var dateArray = [];
+    console.log(startDate);
+    console.log(stopDate);
+
+    this.state.events.forEach((element) => {
+      if (moment(element.date) >= startDate && moment(element.date) <= stopDate ) {
+        dateArray.push(element);
+      }
+    });
+
+    return dateArray;
+  }
+
+  getEventsByDay(day){
+    if(day === 0){
+      return this.getEventsByDates(moment().add(day,'days'), moment().add(day,'days').endOf('day'));
+    } else {
+      return this.getEventsByDates(moment().add(day,'days').startOf('day'), moment().add(day,'days').endOf('day'));
+    }
+    
+  }
+
   render() {
-    return (
-      <React.Fragment>
-        {this.state.loading ? (
-          <div className="message">
-              
-          <i className="fa fa-spinner fa-spin"></i>
-          {" "}
-          Ładowanie..
+    if (this.state.loading) {
+      var fragments = (
+        <div className="message">
+          <i className="fa fa-spinner fa-spin"></i> Ładowanie..
         </div>
-        ) : (
-          <EventList
-            username={this.state.username}
-            events={this.state.events}
-          />
-        )}
-      </React.Fragment>
-    );
+      );
+    } else {
+      var fragments = [];
+
+      for (let day = 0; day < 7; day++) {
+        var elements = this.getEventsByDay(day);
+        var dayName = moment().add(day,'days').startOf('day').locale('pl').format('dddd');
+
+        if(elements.length > 0){
+          fragments.push(
+            <div className="message">
+              <h3>{dayName}</h3>
+            </div>,
+          <EventList username={this.state.username} events={elements} />
+          );
+        }
+      }
+    }
+    
+    return <React.Fragment>{fragments}</React.Fragment>;
   }
 }
