@@ -136,7 +136,6 @@ router.route("/upcomingEvents").get((req, res) => {
         },
         date: {
           $gte: new Date(req.query.start),
-          $lte: new Date(req.query.end),
         },
       })
         .populate("type", "name")
