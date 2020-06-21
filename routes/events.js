@@ -3,6 +3,8 @@ let Event = require("../models/event.model");
 let TypeOfEvent = require("../models/typeOfEvent.model");
 let User = require("../models/user.model");
 
+const mongoose = require("mongoose");
+
 router.route("/").get((req, res) => {
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
@@ -59,64 +61,64 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/search").get((req, res) => {
-    console.log(req.query.typename);
+  console.log(req.query.typename);
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
       TypeOfEvent.find({ name: req.query.typename }, (err, type) => {
         console.log(type);
-        if(type.length !== 0){
-            Event.find({
-                _id: {
-                  $in: user.events,
-                },
-                title: {
-                  $regex: req.query.title,
-                  $options: "i",
-                },
-                description: {
-                  $regex: req.query.description,
-                  $options: "i",
-                },
-                type: type[0]._id,
-                date: {
-                  $gte: new Date(req.query.start),
-                  $lte: new Date(req.query.end),
-                },
-              })
-                .populate("type", "name")
-                .exec(function (err, events) {
-                  if (events) {
-                    res.status(200).json(events);
-                  } else {
-                    res.status(400).json("Error: " + err);
-                  }
-                });
+        if (type.length !== 0) {
+          Event.find({
+            _id: {
+              $in: user.events,
+            },
+            title: {
+              $regex: req.query.title,
+              $options: "i",
+            },
+            description: {
+              $regex: req.query.description,
+              $options: "i",
+            },
+            type: type[0]._id,
+            date: {
+              $gte: new Date(req.query.start),
+              $lte: new Date(req.query.end),
+            },
+          })
+            .populate("type", "name")
+            .exec(function (err, events) {
+              if (events) {
+                res.status(200).json(events);
+              } else {
+                res.status(400).json("Error: " + err);
+              }
+            });
         } else {
-            Event.find({
-                _id: {
-                  $in: user.events,
-                },
-                title: {
-                  $regex: req.query.title,
-                  $options: "i",
-                },
-                description: {
-                  $regex: req.query.description,
-                  $options: "i",
-                },
-                date: {
-                  $gte: new Date(req.query.start),
-                  $lte: new Date(req.query.end),
-                },
-              })
-                .populate("type", "name")
-                .exec(function (err, events) {
-                  if (events) {
-                    res.status(200).json(events);
-                  } else {
-                    res.status(400).json("Error: " + err);
-                  }
-                });
+          Event.find({
+            _id: {
+              $in: user.events,
+            },
+            title: {
+              $regex: req.query.title,
+              $options: "i",
+            },
+            description: {
+              $regex: req.query.description,
+              $options: "i",
+            },
+            date: {
+              $gte: new Date(req.query.start),
+              $lte: new Date(req.query.end),
+            },
+          })
+            .populate("type", "name")
+            .exec(function (err, events) {
+              if (events) {
+                res.status(200).json(events);
+              } else {
+                res.status(400).json("Error: " + err);
+              }
+            });
         }
       });
     } else {
@@ -152,7 +154,12 @@ router.route("/upcomingEvents").get((req, res) => {
 });
 
 router.route("/delete").delete((req, res) => {
-  Event.findByIdAndDelete(req.body.id)
+  Event.deleteOne({ _id: req.body.id }, (err, event) => {
+      User.findOneAndUpdate(
+        { events: { $in: req.body.id }},
+        { $pull: { events: req.body.id } },
+      ).exec();
+  })
     .then(() => res.status(200).json("Event deleted"))
     .catch((err) => res.status(204).json("Unable to delete event: " + err));
 });

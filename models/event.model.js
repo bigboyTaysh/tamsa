@@ -27,11 +27,7 @@ const eventSchema = new Schema ({
 eventSchema.pre('delete', function(next) {
     // 'this' is the client being removed. Provide callbacks here if you want
     // to be notified of the calls' result.
-    User.findOne({events: this._id}, user => {
-        user.events.map().delete(this._id);
-        user.save();
-    });
-    next();
+    
 });
 
 module.exports = mongoose.model('Event', eventSchema);
