@@ -43,7 +43,7 @@ export default class AddEvent extends Component {
     this.checkLoginStatus();
 
     axios
-      .get("http://localhost:5000/typeOfEvents")
+      .get(""+ process.env.REACT_APP_API + "/typeOfEvents")
       .then((res) => {
         if (res.data) {
           this.setState({
@@ -81,7 +81,7 @@ export default class AddEvent extends Component {
       description: "",
     });
 
-    axios.post("http://localhost:5000/events/add", event).catch((error) => {
+    axios.post(""+ process.env.REACT_APP_API + "/events/add", event).catch((error) => {
       this.setState({
         addStatus: error.data,
       });

@@ -26,19 +26,14 @@ export default class Navbar extends Component {
           </Link>
           <div className="collpase navbar-collapse">
             <ul className="navbar-nav mr-auto">
-              <li className="navbar-item right">
-                <Link to="/" className="nav-link">
-                  Home
-                </Link>
-              </li>
               <li className="navbar-item">
                 <Link to="/addEvent" className="nav-link">
-                  Dodaj zdarzenie
+                  Dodaj
                 </Link>
               </li>
               <li className="navbar-item right">
-                <Link to="/upcomingEvents" className="nav-link">
-                  Nadchodzące wydarzenia
+                <Link to="/filterEvents" className="nav-link">
+                  Szukaj
                 </Link>
               </li>
             </ul>

@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import EventList from "./eventList.component";
 import moment from "moment";
 
-export default class UpcomingEvents extends Component {
+export default class FilterEvents extends Component {
   constructor(props) {
     super(props);
 
@@ -61,18 +61,12 @@ export default class UpcomingEvents extends Component {
       completed: false,
       start: this.state.start,
       end: this.state.end,
-      type: this.state.typename,
+      typename: this.state.typename,
     };
 
-    
-
     axios
-      .get("http://localhost:5000/events/upcomingEvents", {
-        params: {
-          username: this.state.username,
-          start: this.state.start,
-          end: this.state.end,
-        },
+      .get(""+ process.env.REACT_APP_API + "/events/byValues", {
+        params: event,
       })
       .then((res) => {
         if (res.data) {
@@ -84,28 +78,26 @@ export default class UpcomingEvents extends Component {
           this.setState({
             events: [],
           });
-         this.state.events.splice();
         }
-      });  
-
-      console.log(this.state.events);
+      });
   }
 
   componentDidMount() {
     this.checkLoginStatus();
 
     axios
-      .get("http://localhost:5000/typeOfEvents")
+      .get(""+ process.env.REACT_APP_API + "/typeOfEvents")
       .then((res) => {
         if (res.data) {
-          this.setState({
-            type: res.data,
-            typename: res.data[0].name,
-          });
-        } else {
-          this.setState({
-            events: "Brak zdarzeń",
-          });
+          this.setState(
+            {
+              type: res.data,
+              typename: res.data[0].name,
+            },
+            function () {
+              this.getUserEventsList();
+            }
+          );
         }
       })
       .catch((error) => {
@@ -113,15 +105,12 @@ export default class UpcomingEvents extends Component {
           addStatus: error.date,
         });
       });
-
-    this.getUserEventsList();
   }
 
   render() {
     if (this.state.loggedInStatus) {
       return (
         <React.Fragment>
-          <h1>Cześć {this.state.username}</h1>
           <div>
             <div className="message">{this.state.addStatus}</div>
             <form>

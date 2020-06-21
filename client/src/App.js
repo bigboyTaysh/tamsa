@@ -12,7 +12,8 @@ import Home from "./components/home.component";
 import Logout from "./components/logout.component";
 import Navbar from "./components/navbar.component";
 import AddEvent from "./components/addEvent.component";
-import UpcomingEvents from "./components/upcomingEvents.component";
+import UpcomingEvents from "./components/filterEvents.component";
+import FilterEvents from "./components/filterEvents.component";
 
 export default class App extends Component {
   constructor(props) {
@@ -83,10 +84,10 @@ export default class App extends Component {
             )}
           />
           <Route
-            path="/upcomingEvents"
+            path="/filterEvents"
             exact
             render={(props) => (
-              <UpcomingEvents
+              <FilterEvents
                 username={this.state.username}
                 loggedInStatus={this.state.loggedInStatus}
                 {...props}

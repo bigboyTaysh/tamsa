@@ -47,7 +47,7 @@ export default class Login extends Component {
     };
 
     axios
-      .post("http://localhost:5000/users/login", user)
+      .post(""+ process.env.REACT_APP_API + "/users/login", user)
       .then((res) => {
         if (res.data) {
             this.setState({
@@ -59,7 +59,6 @@ export default class Login extends Component {
 
             Cookies.set('loggedInStatus', true);
             Cookies.set('username', user.username);
-
             
             this.props.updateHandler(true, this.state.username);
             this.props.history.push("/");

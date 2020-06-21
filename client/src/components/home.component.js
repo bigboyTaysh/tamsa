@@ -26,7 +26,7 @@ export default class Home extends Component {
 
   getUserEventsList(){
     axios
-      .get("http://localhost:5000/events", {params: {username: this.state.username}})
+      .get(""+ process.env.REACT_APP_API + "/events", {params: {username: this.state.username}})
       .then((res) => {
         if (res.data) {
             this.setState({

@@ -18,7 +18,7 @@ export default class EventList extends Component {
 
   handleDelete(id) {
     axios
-      .delete("http://localhost:5000/events/delete", {
+      .delete(""+ process.env.REACT_APP_API + "/events/delete", {
         data: {
           id: id,
         },

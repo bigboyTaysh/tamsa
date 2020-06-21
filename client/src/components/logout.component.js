@@ -18,7 +18,7 @@ export default class Logout extends Component {
 
   logout() {
     axios
-      .post("http://localhost:5000/users/logout", this.state.username)
+      .post(""+ process.env.REACT_APP_API + "/users/logout", this.state.username)
       .then((res) => {
         if(!res.data){
           this.setState({

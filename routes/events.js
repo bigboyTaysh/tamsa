@@ -58,6 +58,43 @@ router.route("/add").post((req, res) => {
   });
 });
 
+router.route("/byValues").get((req, res) => {
+  User.findOne({ username: req.query.username }, (err, user) => {
+    if (user) {
+      TypeOfEvent.findOne({ name: req.query.typename }, (err, type) => {
+        Event.find({
+          _id: {
+            $in: user.events,
+          },
+          title: {
+            $regex: req.query.title,
+            $options: "i",
+          },
+          description: {
+            $regex: req.query.description,
+            $options: "i",
+          },
+          type: type,
+          date: {
+            $gte: new Date(req.query.start),
+            $lte: new Date(req.query.end),
+          },
+        })
+          .populate("type", "name")
+          .exec(function (err, events) {
+            if (events) {
+              res.status(200).json(events);
+            } else {
+              res.status(400).json("Error: " + err);
+            }
+          });
+      });
+    } else {
+      res.status(400).json("Error: " + err);
+    }
+  });
+});
+
 router.route("/upcomingEvents").get((req, res) => {
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
@@ -67,13 +104,12 @@ router.route("/upcomingEvents").get((req, res) => {
         },
         date: {
           $gte: new Date(req.query.start),
-          $lte: new Date(req.query.end)
+          $lte: new Date(req.query.end),
         },
       })
         .populate("type", "name")
         .exec(function (err, events) {
           if (events) {
-              console.log(events);
             res.status(200).json(events);
           } else {
             res.status(400).json("Error: " + err);
