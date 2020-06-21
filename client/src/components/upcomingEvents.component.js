@@ -13,16 +13,10 @@ export default class UpcomingEvents extends Component {
       username: this.props.username,
       loading: true,
       events: [],
-      start: ''
+      start: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
     };
   }
 
-  checkLoginStatus() {
-    this.setState({
-      loggedInStatus: Cookies.get("loggedInStatus"),
-      username: Cookies.get("username"),
-    });
-  }
   setDate(date, hours, minutes) {
     return moment(date)
       .hours(hours)
@@ -32,16 +26,15 @@ export default class UpcomingEvents extends Component {
   }
 
   componentDidMount() {
-    this.checkLoginStatus();
     this.getUserEventsList();
   }
 
   getUserEventsList() {
     axios
-      .get("" + process.env.REACT_APP_API + "/upcomingEvents", {
+      .get("" + process.env.REACT_APP_API + "/events/upcomingEvents", {
         params: {
           username: this.state.username,
-          start: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
+          start: this.state.start
         },
       })
       .then((res) => {

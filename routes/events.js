@@ -4,6 +4,7 @@ let TypeOfEvent = require("../models/typeOfEvent.model");
 let User = require("../models/user.model");
 
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 router.route("/").get((req, res) => {
   User.findOne({ username: req.query.username }, (err, user) => {
@@ -61,11 +62,9 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/search").get((req, res) => {
-  console.log(req.query.typename);
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
       TypeOfEvent.find({ name: req.query.typename }, (err, type) => {
-        console.log(type);
         if (type.length !== 0) {
           Event.find({
             _id: {
@@ -127,7 +126,7 @@ router.route("/search").get((req, res) => {
   });
 });
 
-router.route("/upcomingEvents").get((req, res) => {
+router.route("/upcomingEvents").get((req, res) => { 
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
       Event.find({
@@ -135,12 +134,12 @@ router.route("/upcomingEvents").get((req, res) => {
           $in: user.events,
         },
         date: {
-          $gte: new Date(req.query.start),
+          $gte: moment(req.query.start).format("YYYY-MM-DDTHH:mm"),
         },
       })
         .populate("type", "name")
         .exec(function (err, events) {
-          if (events) {
+          if (events) { 
             res.status(200).json(events);
           } else {
             res.status(400).json("Error: " + err);
