@@ -11,8 +11,12 @@ export default class EventList extends Component {
       username: this.props.username,
       events: this.props.events,
       removestatus: "",
-      format: this.props.format
+      format: this.props.format,
     };
+  }
+
+  changeTheStatusOfCompletion(){
+
   }
 
   componentWillReceiveProps(props) {
@@ -52,6 +56,27 @@ export default class EventList extends Component {
             <tbody>
               {this.state.events.map((item) => (
                 <tr key={item._id}>
+                  <td>
+                    {item.completed ? (
+                      <button
+                        className="none"
+                        onClick={() => {
+                          
+                        }}
+                      >
+                        <i className="fa fa-check"></i>
+                      </button>
+                    ) : (
+                      <button
+                        className="none"
+                        onClick={() => {
+                          
+                        }}
+                      >
+                        <i className="fa fa-times"></i>
+                      </button>
+                    )}
+                  </td>
                   <td>{item.title}</td>
                   <td>{item.description}</td>
                   <td>
