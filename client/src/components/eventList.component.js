@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/pl";
+import $ from "jquery";
 
 export default class EventList extends Component {
   constructor(props) {
@@ -33,16 +34,15 @@ export default class EventList extends Component {
             }
           });
 
-        if(this.state.completed || this.state.completed === undefined){
+        if (this.state.completed || this.state.completed === undefined) {
           this.setState({
             events: array,
           });
         } else {
           this.setState({
-            events: array.filter(x=> x.completed === this.state.completed),
+            events: array.filter((x) => x.completed === this.state.completed),
           });
         }
-
       })
       .catch((error) => {
         this.setState({
@@ -53,9 +53,17 @@ export default class EventList extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-       events: props.events,
-       completed: props.completed
-      });
+      events: props.events,
+      completed: props.completed,
+    });
+  }
+
+  openPopup(event) {
+      $(event.currentTarget).next("tr").show();
+  }
+
+  closePopup(event) {
+    $(event.currentTarget).next("tr").hide();
   }
 
   handleDelete(id) {
@@ -87,48 +95,56 @@ export default class EventList extends Component {
         {this.state.events.length === 0 ? (
           <div>Brak zadań</div>
         ) : (
-          <table>
+          <table className="table">
             <tbody>
-              {this.state.events.map((item) => (
-                <tr key={item._id}>
-                  <td>
-                    {item.completed ? (
+              {this.state.events.map((item, id) => (
+                <div>
+                  <tr
+                    key={id}
+                    onMouseOver={this.openPopup.bind(this)}
+                    onMouseOut={this.closePopup.bind(this)}
+                  >
+                    <td>
+                      {item.completed ? (
+                        <button
+                          className="none"
+                          onClick={() => {
+                            this.handleChangeState(item._id, item.completed);
+                          }}
+                        >
+                          <i className="fa fa-check"></i>
+                        </button>
+                      ) : (
+                        <button
+                          className="none"
+                          onClick={() => {
+                            this.handleChangeState(item._id, item.completed);
+                          }}
+                        >
+                          <i className="fa fa-times"></i>
+                        </button>
+                      )}
+                    </td>
+                    <td>{item.title}</td>
+                    <td>
+                      {moment(item.date).locale("pl").format(this.state.format)}
+                    </td>
+                    <td>{item.type.name}</td>
+                    <td>
                       <button
                         className="none"
                         onClick={() => {
-                          this.handleChangeState(item._id, item.completed);
+                          this.handleDelete(item._id);
                         }}
                       >
-                        <i className="fa fa-check"></i>
+                        <i className="fa fa-trash"></i>
                       </button>
-                    ) : (
-                      <button
-                        className="none"
-                        onClick={() => {
-                          this.handleChangeState(item._id, item.completed);
-                        }}
-                      >
-                        <i className="fa fa-times"></i>
-                      </button>
-                    )}
-                  </td>
-                  <td>{item.title}</td>
-                  <td>{item.description}</td>
-                  <td>
-                    {moment(item.date).locale("pl").format(this.state.format)}
-                  </td>
-                  <td>{item.type.name}</td>
-                  <td>
-                    <button
-                      className="none"
-                      onClick={() => {
-                        this.handleDelete(item._id);
-                      }}
-                    >
-                      <i className="fa fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                  <tr colSpan="5" style={{display: 'none'}}>
+                      <td>{item.description}</td>
+                  </tr>
+                </div>
               ))}
             </tbody>
           </table>
