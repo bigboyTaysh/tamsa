@@ -52,9 +52,9 @@ export default class AddEvent extends Component {
   handleDateChange(event) {
     this.setState({
       date: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
-      locale: moment(this.state.locale).add(this.timeOffset(), 'hours').format('DD.MM.YYYY HH:mm'),
+      locale: moment(event.target.value).add(this.timeOffset(), 'hours').format('YYYY-MM-DDTHH:mm'),
     }, () => {
-      console.log(moment(this.state.locale).add(this.timeOffset(), 'hours').format('DD.MM.YYYY HH:mm')); 
+      console.log(moment(this.state.locale).format('YYYY-MM-DDTHH:mm')); 
     });
   }
 
