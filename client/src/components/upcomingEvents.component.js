@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import EventList from "./eventList.component";
 import moment from "moment";
-import 'moment/locale/pl';
+import "moment/locale/pl";
 
 export default class UpcomingEvents extends Component {
   constructor(props) {
@@ -50,11 +50,12 @@ export default class UpcomingEvents extends Component {
 
   getEventsByDates(startDate, stopDate) {
     var dateArray = [];
-    console.log(startDate);
-    console.log(stopDate);
 
     this.state.events.forEach((element) => {
-      if (moment(element.date) >= startDate && moment(element.date) <= stopDate ) {
+      if (
+        moment(element.date) >= startDate &&
+        moment(element.date) <= stopDate
+      ) {
         dateArray.push(element);
       }
     });
@@ -62,13 +63,18 @@ export default class UpcomingEvents extends Component {
     return dateArray;
   }
 
-  getEventsByDay(day){
-    if(day === 0){
-      return this.getEventsByDates(moment().add(day,'days'), moment().add(day,'days').endOf('day'));
+  getEventsByDay(day) {
+    if (day === 0) {
+      return this.getEventsByDates(
+        moment().add(day, "days"),
+        moment().add(day, "days").endOf("day")
+      );
     } else {
-      return this.getEventsByDates(moment().add(day,'days').startOf('day'), moment().add(day,'days').endOf('day'));
+      return this.getEventsByDates(
+        moment().add(day, "days").startOf("day"),
+        moment().add(day, "days").endOf("day")
+      );
     }
-    
   }
 
   render() {
@@ -83,19 +89,35 @@ export default class UpcomingEvents extends Component {
 
       for (let day = 0; day < 7; day++) {
         var elements = this.getEventsByDay(day);
-        var dayName = moment().add(day,'days').startOf('day').locale('pl').format('dddd');
+        var dayName = moment()
+          .add(day, "days")
+          .startOf("day")
+          .locale("pl")
+          .format("dddd, DD.MM");
 
-        if(elements.length > 0){
+        if (dayName === "poniedziałek") {
+          dayName = "dzisiaj";
+        }
+
+        if (elements.length > 0) {
           fragments.push(
             <div className="message">
               <h3>{dayName}</h3>
             </div>,
-          <EventList username={this.state.username} events={elements} />
+            <EventList
+              username={this.state.username}
+              events={elements}
+              format={"HH:MM"}
+            />
           );
         }
       }
     }
-    
-    return <React.Fragment>{fragments}</React.Fragment>;
+
+    return (
+      <React.Fragment>
+        {fragments.length > 0 ? fragments : <div>Brak danych</div>}
+      </React.Fragment>
+    );
   }
 }

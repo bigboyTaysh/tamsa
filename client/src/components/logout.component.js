@@ -16,22 +16,6 @@ export default class Logout extends Component {
     Cookies.remove("username");
   }
 
-  logout() {
-    axios
-      .post(""+ process.env.REACT_APP_API + "/users/logout", this.state.username)
-      .then((res) => {
-        if(!res.data){
-          this.setState({
-            loggedInStatus: false,
-          });
-        }
-      });
-  }
-
-  componentWillMount() {
-    this.logout();
-  }
-
   render() {
     localStorage.setItem("loggedInStatus", false);
     return (

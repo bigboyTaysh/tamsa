@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import moment from "moment";
+import "moment/locale/pl";
 
 export default class EventList extends Component {
   constructor(props) {
@@ -9,22 +11,24 @@ export default class EventList extends Component {
       username: this.props.username,
       events: this.props.events,
       removestatus: "",
+      format: this.props.format
     };
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ events: props.events });  
+    this.setState({ events: props.events });
   }
 
   handleDelete(id) {
     axios
-      .delete(""+ process.env.REACT_APP_API + "/events/delete", {
+      .delete("" + process.env.REACT_APP_API + "/events/delete", {
         data: {
           id: id,
         },
       })
       .then((res) => {
         var array = this.state.events;
+
         array.splice(
           array.findIndex((x) => x._id === id),
           1
@@ -51,15 +55,7 @@ export default class EventList extends Component {
                   <td>{item.title}</td>
                   <td>{item.description}</td>
                   <td>
-                    {new Date(item.date).toLocaleDateString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      weekday: "long",
-                      year: "numeric",
-                      month: "2-digit",
-                      day: "numeric",
-                      formatMatcher: "best fit",
-                    })}
+                    {moment(item.date).locale("pl").format(this.state.format)}
                   </td>
                   <td>{item.type.name}</td>
                   <td>

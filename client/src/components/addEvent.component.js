@@ -8,7 +8,7 @@ export default class AddEvent extends Component {
   constructor(props) {
     super(props);
 
-    var dateWithTimezoneOffset = moment(new Date()).format("YYYY-MM-DDTHH:mm");
+    var dateWithTimezoneOffset = moment().format("YYYY-MM-DDTHH:mm");
 
 
     this.state = {

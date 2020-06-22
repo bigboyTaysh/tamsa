@@ -53,10 +53,6 @@ export default class SearchEvents extends Component {
     );
   }
 
-  getEventsByDay(){
-    
-  }
-
   getUserEventsList() {
     const event = {
       username: this.state.username,
@@ -195,6 +191,7 @@ export default class SearchEvents extends Component {
             <EventList
               username={this.state.username}
               events={this.state.events}
+              format={"HH:MM DD.MM.YYYY"}
             />
           )}
         </React.Fragment>
