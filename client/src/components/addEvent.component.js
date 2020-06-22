@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import * as moment from 'moment';
+import moment from 'moment';
+import "moment/locale/pl";
 
 export default class AddEvent extends Component {
   constructor(props) {
@@ -71,7 +72,7 @@ export default class AddEvent extends Component {
       title: this.state.title,
       description: this.state.description,
       completed: false,
-      date: moment(this.state.date).format("YYYY-MM-DDTHH:mm"),
+      date: moment(this.state.date).locale("en").format("YYYY-MM-DDTHH:mm"),
       type: this.state.typename,
     };
 

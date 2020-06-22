@@ -4,6 +4,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import EventList from "./eventList.component";
 import moment from "moment";
+import "moment/locale/pl";
+
 
 export default class SearchEvents extends Component {
   constructor(props) {
