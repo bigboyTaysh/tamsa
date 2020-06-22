@@ -5,7 +5,6 @@ let User = require("../models/user.model");
 
 const mongoose = require("mongoose");
 const moment = require("moment");
-require('moment/locale/pl');
 
 router.route("/").get((req, res) => {
   User.findOne({ username: req.query.username }, (err, user) => {
@@ -28,7 +27,7 @@ router.route("/").get((req, res) => {
 router.route("/add").post((req, res) => {
   console.log(moment.locale());
   console.log(req.body.date);
-  console.log(moment(req.body.date).locale("pl").format("YYYY-MM-DDTHH:mm"));
+  console.log(moment(req.body.date).format("YYYY-MM-DDTHH:mm"));
   User.findOne({ username: req.body.username }, (err, user) => {
     if (user) {
       TypeOfEvent.findOne({ name: req.body.type }, (err, type) => {
@@ -37,7 +36,7 @@ router.route("/add").post((req, res) => {
             title: req.body.title,
             description: req.body.description,
             completed: req.body.completed,
-            date: moment(req.body.date).locale("pl").format("YYYY-MM-DDTHH:mm"),
+            date: moment(req.body.date).format("YYYY-MM-DDTHH:mm"),
             type: type,
           });
 
@@ -84,8 +83,8 @@ router.route("/search").get((req, res) => {
             },
             type: type[0]._id,
             date: {
-              $gte: new Date(req.query.start),
-              $lte: new Date(req.query.end),
+              $gte: moment(req.query.start).format("YYYY-MM-DDTHH:mm"),
+              $lte: moment(req.query.end).format("YYYY-MM-DDTHH:mm"),
             },
           })
             .populate("type", "name")
@@ -165,5 +164,10 @@ router.route("/delete").delete((req, res) => {
     .then(() => res.status(200).json("Event deleted"))
     .catch((err) => res.status(204).json("Unable to delete event: " + err));
 });
+
+router.route("/timeOffset").get((req, res) => {
+  res.status(200).json(moment());
+});
+
 
 module.exports = router;

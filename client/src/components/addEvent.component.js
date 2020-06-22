@@ -4,12 +4,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import moment from 'moment';
 import "moment/locale/pl";
+import "moment/locale/en-gb";
 
 export default class AddEvent extends Component {
   constructor(props) {
     super(props);
 
-    var dateWithTimezoneOffset = moment().format("YYYY-MM-DDTHH:mm");
+    var dateWithTimezoneOffset = moment().format('YYYY-MM-DDTHH:mm');
+    var date = moment().format('YYYY-MM-DDTHH:mm');
 
 
     this.state = {
@@ -18,6 +20,7 @@ export default class AddEvent extends Component {
       title: "",
       description: "",
       date: dateWithTimezoneOffset,
+      locale: date,
       type: [],
       typename: "",
       addStatus: "",
@@ -34,11 +37,24 @@ export default class AddEvent extends Component {
     });
   }
 
+  timeOffset(){
+    var offset; 
+
+    axios
+      .get(""+ process.env.REACT_APP_API + "/timeOffset")
+      .then((res) => {
+          offset = res.data;
+      });
+
+      return moment.duration(moment(offset).diff(moment())).asHours();
+  }
+
   handleDateChange(event) {
     this.setState({
-      date: moment(event.target.value).format("YYYY-MM-DDTHH:mm"),
+      date: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
+      locale: moment(this.state.locale).add(this.timeOffset(), 'hours').format('DD.MM.YYYY HH:mm'),
     }, () => {
-      console.log(moment.locale()); 
+      console.log(moment(this.state.locale).add(this.timeOffset(), 'hours').format('DD.MM.YYYY HH:mm')); 
     });
   }
 
@@ -81,7 +97,7 @@ export default class AddEvent extends Component {
       title: this.state.title,
       description: this.state.description,
       completed: false,
-      date: this.state.date,
+      date: this.state.locale,
       type: this.state.typename,
     };
 
