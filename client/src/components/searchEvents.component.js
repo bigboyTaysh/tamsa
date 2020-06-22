@@ -11,7 +11,8 @@ export default class SearchEvents extends Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
 
-    var newdate = new Date();
+    var startDate = moment().startOf('day').locale("pl").format("YYYY-MM-DDTHH:mm");
+    var endDate = moment().endOf('day').locale("pl").format("YYYY-MM-DDTHH:mm");
 
     this.state = {
       username: this.props.username,
@@ -22,17 +23,9 @@ export default class SearchEvents extends Component {
       description: "",
       type: [],
       typename: "",
-      start: this.setDate(newdate, 0, 0),
-      end: this.setDate(newdate, 23, 59),
+      start: startDate,
+      end: endDate,
     };
-  }
-
-  setDate(date, hours, minutes) {
-    return moment(date)
-      .hours(hours)
-      .minutes(minutes)
-      .seconds(minutes)
-      .format("YYYY-MM-DDTHH:mm");
   }
 
   checkLoginStatus() {
@@ -65,7 +58,7 @@ export default class SearchEvents extends Component {
     };
 
     axios
-      .get(""+ process.env.REACT_APP_API + "/events/search", {
+      .get("" + process.env.REACT_APP_API + "/events/search", {
         params: event,
       })
       .then((res) => {
@@ -86,13 +79,13 @@ export default class SearchEvents extends Component {
     this.checkLoginStatus();
 
     axios
-      .get(""+ process.env.REACT_APP_API + "/typeOfEvents")
+      .get("" + process.env.REACT_APP_API + "/typeOfEvents")
       .then((res) => {
         if (res.data) {
           this.setState(
             {
               type: res.data,
-              typename: '',
+              typename: "",
             },
             function () {
               this.getUserEventsList();
@@ -169,9 +162,7 @@ export default class SearchEvents extends Component {
                   name="typename"
                   onChange={this.handleInputChange}
                 >
-                  <option value={''}>
-                        {'wszystkie'}
-                      </option>
+                  <option value={""}>{"wszystkie"}</option>
                   {this.state.type.map((type) => {
                     return (
                       <option key={type._id} value={type.name}>
@@ -191,7 +182,7 @@ export default class SearchEvents extends Component {
             <EventList
               username={this.state.username}
               events={this.state.events}
-              format={"HH:MM DD.MM.YYYY"}
+              format={"HH:mm DD.MM.YYYY"}
             />
           )}
         </React.Fragment>

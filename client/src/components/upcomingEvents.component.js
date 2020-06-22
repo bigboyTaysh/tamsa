@@ -14,16 +14,8 @@ export default class UpcomingEvents extends Component {
       username: this.props.username,
       loading: true,
       events: [],
-      start: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
+      start: moment().locale("pl").format("YYYY-MM-DDTHH:mm"),
     };
-  }
-
-  setDate(date, hours, minutes) {
-    return moment(date)
-      .hours(hours)
-      .minutes(minutes)
-      .seconds(minutes)
-      .format("YYYY-MM-DDTHH:mm");
   }
 
   componentDidMount() {
@@ -107,7 +99,7 @@ export default class UpcomingEvents extends Component {
             <EventList
               username={this.state.username}
               events={elements}
-              format={"HH:MM"}
+              format={"HH:mm"}
             />
           );
         }
