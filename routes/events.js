@@ -33,7 +33,7 @@ router.route("/add").post((req, res) => {
             title: req.body.title,
             description: req.body.description,
             completed: req.body.completed,
-            date: new Date(req.body.date),
+            date: moment(req.body.date).format("YYYY-MM-DDTHH:mm"),
             type: type,
           });
 
