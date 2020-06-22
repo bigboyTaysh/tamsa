@@ -10,6 +10,7 @@ export default class AddEvent extends Component {
   constructor(props) {
     super(props);
 
+    moment.locale("pl");
     var dateWithTimezoneOffset = moment().format('YYYY-MM-DDTHH:mm');
     var date = moment().format('YYYY-MM-DDTHH:mm');
 
@@ -52,9 +53,9 @@ export default class AddEvent extends Component {
   handleDateChange(event) {
     this.setState({
       date: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
-      locale: moment(event.target.value).add(this.timeOffset(), 'hours').format('YYYY-MM-DDTHH:mm'),
+      locale: moment(event.target.value),
     }, () => {
-      console.log(moment(this.state.locale).format('YYYY-MM-DDTHH:mm')); 
+      console.log(moment(this.state.locale));
     });
   }
 
