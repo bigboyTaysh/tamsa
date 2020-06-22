@@ -126,7 +126,7 @@ router.route("/search").get((req, res) => {
   });
 });
 
-router.route("/upcomingEvents").get((req, res) => { 
+router.route("/upcomingEvents").get((req, res) => {
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
       Event.find({
@@ -139,7 +139,7 @@ router.route("/upcomingEvents").get((req, res) => {
       })
         .populate("type", "name")
         .exec(function (err, events) {
-          if (events) { 
+          if (events) {
             res.status(200).json(events);
           } else {
             res.status(400).json("Error: " + err);
@@ -151,12 +151,31 @@ router.route("/upcomingEvents").get((req, res) => {
   });
 });
 
+router.route("/changeState").put((req, res) => {
+  console.log(req.body);
+  Event.updateOne(
+    {
+      _id: req.body.id
+    },
+    {
+      completed: req.body.completed
+    },
+    function (err, event) {
+      if (event) {
+        res.status(200);
+      } else {
+        res.status(204).json(err);
+      }
+    }
+  );
+});
+
 router.route("/delete").delete((req, res) => {
   Event.deleteOne({ _id: req.body.id }, (err, event) => {
-      User.findOneAndUpdate(
-        { events: { $in: req.body.id }},
-        { $pull: { events: req.body.id } },
-      ).exec();
+    User.findOneAndUpdate(
+      { events: { $in: req.body.id } },
+      { $pull: { events: req.body.id } }
+    ).exec();
   })
     .then(() => res.status(200).json("Event deleted"))
     .catch((err) => res.status(204).json("Unable to delete event: " + err));
@@ -165,6 +184,5 @@ router.route("/delete").delete((req, res) => {
 router.route("/timeOffset").get((req, res) => {
   res.status(200).json(moment());
 });
-
 
 module.exports = router;

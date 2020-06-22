@@ -15,7 +15,38 @@ export default class EventList extends Component {
     };
   }
 
-  changeTheStatusOfCompletion(){
+  handleChangeState(id, completed) {
+    console.log("Change state to: " + !completed);
+
+    var array = this.state.events;
+
+    array.filter((x) => x._id === id)
+    .map((x) => {
+      if(x._id === id){
+        x.completed = !completed
+      }
+    });
+
+    console.log(array);
+
+    this.setState({
+      events: array,
+    });
+
+    
+    axios
+      .put("" + process.env.REACT_APP_API + "/events/changeState", {
+        id: id,
+        completed: !completed,
+      })
+      .then((res) => {
+        
+      })
+      .catch((error) => {
+        this.setState({
+          removestatus: error.date,
+        });
+      });
 
   }
 
@@ -61,7 +92,7 @@ export default class EventList extends Component {
                       <button
                         className="none"
                         onClick={() => {
-                          
+                          this.handleChangeState(item._id, item.completed);
                         }}
                       >
                         <i className="fa fa-check"></i>
@@ -70,7 +101,7 @@ export default class EventList extends Component {
                       <button
                         className="none"
                         onClick={() => {
-                          
+                          this.handleChangeState(item._id, item.completed);
                         }}
                       >
                         <i className="fa fa-times"></i>
