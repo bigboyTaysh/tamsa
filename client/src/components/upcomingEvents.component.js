@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 import EventList from "./eventList.component";
 import moment from "moment";
 import "moment/locale/pl";
@@ -9,8 +8,6 @@ import "moment/locale/pl";
 export default class UpcomingEvents extends Component {
   constructor(props) {
     super(props);
-
-    moment.locale("pl");
 
     this.state = {
       username: this.props.username,
@@ -28,7 +25,7 @@ export default class UpcomingEvents extends Component {
       .get("" + process.env.REACT_APP_API + "/events/upcomingEvents", {
         params: {
           username: this.state.username,
-          start: moment().format('YYYY-MM-DDTHH:mm'),
+          start: moment().format(),
         },
       })
       .then((res) => {

@@ -29,8 +29,8 @@ export default class SearchEvents extends Component {
       typename: "",
       start: startDate,
       end: endDate,
-      startLocale: startDate,
-      endLocale: endDate 
+      startLocale: moment().startOf('day').format(),
+      endLocale: moment().endOf('day').format(),
     };
   }
 
@@ -55,9 +55,9 @@ export default class SearchEvents extends Component {
   handleStartDateChange(event) {
     this.setState({
       start: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
-      startLocale: moment(event.target.value),
+      startLocale: moment(event.target.value).format(),
     }, () => {
-      console.log(moment(this.state.startLocale));
+      console.log(this.state.startLocale);
       this.getUserEventsList();
     });
   }
@@ -65,7 +65,7 @@ export default class SearchEvents extends Component {
   handleEndDateChange(event) {
     this.setState({
       end: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
-      endLocale: moment(event.target.value),
+      endLocale: moment(event.target.value).format(),
     }, () => {
       console.log(moment(this.state.endLocale));
       this.getUserEventsList();
@@ -78,8 +78,8 @@ export default class SearchEvents extends Component {
       title: this.state.title,
       description: this.state.description,
       completed: false,
-      start: this.state.start,
-      end: this.state.end,
+      start: this.state.startLocale,
+      end: this.state.endLocale,
       typename: this.state.typename,
     };
 
