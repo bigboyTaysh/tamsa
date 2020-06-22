@@ -71,7 +71,7 @@ export default class AddEvent extends Component {
       title: this.state.title,
       description: this.state.description,
       completed: false,
-      date: this.state.date,
+      date: moment(this.state.date).format("YYYY-MM-DDTHH:mm"),
       type: this.state.typename,
     };
 
