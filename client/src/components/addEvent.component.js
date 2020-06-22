@@ -9,7 +9,7 @@ export default class AddEvent extends Component {
   constructor(props) {
     super(props);
 
-    var dateWithTimezoneOffset = moment().locale("pl").format("YYYY-MM-DDTHH:mm");
+    var dateWithTimezoneOffset = moment().format("YYYY-MM-DDTHH:mm");
 
 
     this.state = {
@@ -24,12 +24,21 @@ export default class AddEvent extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   handleInputChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
+    });
+  }
+
+  handleDateChange(event) {
+    this.setState({
+      date: moment(event.target.value).format("YYYY-MM-DDTHH:mm"),
+    }, () => {
+      console.log(this.state.date); 
     });
   }
 
@@ -72,7 +81,7 @@ export default class AddEvent extends Component {
       title: this.state.title,
       description: this.state.description,
       completed: false,
-      date: moment(this.state.date).locale("pl").format("YYYY-MM-DDTHH:mm"),
+      date: this.state.date,
       type: this.state.typename,
     };
 
@@ -127,7 +136,7 @@ export default class AddEvent extends Component {
                   className="form-control"
                   name="date"
                   value={this.state.date}
-                  onChange={this.handleInputChange}
+                  onChange={this.handleDateChange}
                 />
               </div>
             </div>

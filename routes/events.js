@@ -33,7 +33,7 @@ router.route("/add").post((req, res) => {
             title: req.body.title,
             description: req.body.description,
             completed: req.body.completed,
-            date: new Date(req.body.date),
+            date: moment(req.body.date).format("YYYY-MM-DDTHH:mm"),
             type: type,
           });
 
@@ -106,8 +106,8 @@ router.route("/search").get((req, res) => {
               $options: "i",
             },
             date: {
-              $gte: new Date(req.query.start),
-              $lte: new Date(req.query.end),
+              $gte: moment(req.query.start).format("YYYY-MM-DDTHH:mm"),
+              $lte: moment(req.query.end).format("YYYY-MM-DDTHH:mm"),
             },
           })
             .populate("type", "name")
