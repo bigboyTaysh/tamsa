@@ -12,46 +12,50 @@ export default class EventList extends Component {
       events: this.props.events,
       removestatus: "",
       format: this.props.format,
+      completed: this.props.completed,
     };
   }
 
   handleChangeState(id, completed) {
-    console.log("Change state to: " + !completed);
-
     var array = this.state.events;
 
-    array.filter((x) => x._id === id)
-    .map((x) => {
-      if(x._id === id){
-        x.completed = !completed
-      }
-    });
-
-    console.log(array);
-
-    this.setState({
-      events: array,
-    });
-
-    
     axios
       .put("" + process.env.REACT_APP_API + "/events/changeState", {
         id: id,
         completed: !completed,
       })
       .then((res) => {
-        
+        array
+          .filter((x) => x._id === id)
+          .map((x) => {
+            if (x._id === id) {
+              x.completed = !completed;
+            }
+          });
+
+        if(this.state.completed || this.state.completed === undefined){
+          this.setState({
+            events: array,
+          });
+        } else {
+          this.setState({
+            events: array.filter(x=> x.completed === this.state.completed),
+          });
+        }
+
       })
       .catch((error) => {
         this.setState({
           removestatus: error.date,
         });
       });
-
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ events: props.events });
+    this.setState({
+       events: props.events,
+       completed: props.completed
+      });
   }
 
   handleDelete(id) {
@@ -81,7 +85,7 @@ export default class EventList extends Component {
     return (
       <React.Fragment>
         {this.state.events.length === 0 ? (
-          <h1>Brak wydarzeń</h1>
+          <div>Brak zadań</div>
         ) : (
           <table>
             <tbody>

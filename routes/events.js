@@ -162,7 +162,7 @@ router.route("/changeState").put((req, res) => {
     },
     function (err, event) {
       if (event) {
-        res.status(200);
+        res.status(200).json('ok');
       } else {
         res.status(204).json(err);
       }

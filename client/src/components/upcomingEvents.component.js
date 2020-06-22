@@ -10,6 +10,7 @@ export default class UpcomingEvents extends Component {
     super(props);
 
     this.checkBox = this.checkBox.bind(this);
+    this.updateEvents = this.updateEvents.bind(this);
 
     this.state = {
       username: this.props.username,
@@ -19,15 +20,17 @@ export default class UpcomingEvents extends Component {
     };
   }
 
+  updateEvents(events){
+    this.setState({
+      events: events
+    });
+  }
+
   checkBox(event){
     this.setState(
       {
         completed: event.target.checked,
-      },
-      function () {
-        console.log(this.state.completed);
-      }
-    );
+      });
   }
 
   componentDidMount() {
@@ -116,9 +119,10 @@ export default class UpcomingEvents extends Component {
       );
     } else {
       var fragments = [];
+      var elements = [];
 
       for (let day = 0; day < 7; day++) {
-        var elements = this.getEventsByDay(day);
+        elements = this.getEventsByDay(day);
         var dayName = moment()
           .add(day, "days")
           .startOf("day")
@@ -141,6 +145,7 @@ export default class UpcomingEvents extends Component {
               username={this.state.username}
               events={elements}
               format={"HH:mm"}
+              completed={this.state.completed}
             />
           );
         }
@@ -153,7 +158,7 @@ export default class UpcomingEvents extends Component {
         {fragments.length > 0 ? (
           fragments
         ) : (
-          <div>Brak nadchodzących wydarzeń</div>
+          <div>Brak nadchodzących zadań</div>
         )}
       </React.Fragment>
     );
