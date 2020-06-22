@@ -12,8 +12,6 @@ export default class AddEvent extends Component {
 
     moment.locale("pl");
     var dateWithTimezoneOffset = moment().format('YYYY-MM-DDTHH:mm');
-    var date = moment().format('YYYY-MM-DDTHH:mm');
-
 
     this.state = {
       username: this.props.username,
@@ -21,7 +19,7 @@ export default class AddEvent extends Component {
       title: "",
       description: "",
       date: dateWithTimezoneOffset,
-      locale: date,
+      locale: dateWithTimezoneOffset,
       type: [],
       typename: "",
       addStatus: "",

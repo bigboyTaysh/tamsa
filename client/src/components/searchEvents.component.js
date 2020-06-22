@@ -12,6 +12,8 @@ export default class SearchEvents extends Component {
     super(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
 
     var startDate = moment().startOf('day').format("YYYY-MM-DDTHH:mm");
     var endDate = moment().endOf('day').format("YYYY-MM-DDTHH:mm");
@@ -27,6 +29,8 @@ export default class SearchEvents extends Component {
       typename: "",
       start: startDate,
       end: endDate,
+      startLocale: startDate,
+      endLocale: endDate 
     };
   }
 
@@ -46,6 +50,26 @@ export default class SearchEvents extends Component {
         this.getUserEventsList();
       }
     );
+  }
+
+  handleStartDateChange(event) {
+    this.setState({
+      start: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
+      startLocale: moment(event.target.value),
+    }, () => {
+      console.log(moment(this.state.startLocale));
+      this.getUserEventsList();
+    });
+  }
+
+  handleEndDateChange(event) {
+    this.setState({
+      end: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
+      endLocale: moment(event.target.value),
+    }, () => {
+      console.log(moment(this.state.endLocale));
+      this.getUserEventsList();
+    });
   }
 
   getUserEventsList() {
@@ -141,7 +165,7 @@ export default class SearchEvents extends Component {
                     className="form-control"
                     name="start"
                     value={this.state.start}
-                    onChange={this.handleInputChange}
+                    onChange={this.handleStartDateChange}
                   />
                 </div>
                 <div>
@@ -151,7 +175,7 @@ export default class SearchEvents extends Component {
                     className="form-control"
                     name="end"
                     value={this.state.end}
-                    onChange={this.handleInputChange}
+                    onChange={this.handleEndDateChange}
                   />
                 </div>
               </div>

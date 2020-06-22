@@ -62,6 +62,8 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/search").get((req, res) => {
+  console.log(req.query.start);
+  console.log(moment(req.query.start).format());
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
       TypeOfEvent.find({ name: req.query.typename }, (err, type) => {
@@ -80,8 +82,8 @@ router.route("/search").get((req, res) => {
             },
             type: type[0]._id,
             date: {
-              $gte: moment(req.query.start).format("YYYY-MM-DDTHH:mm"),
-              $lte: moment(req.query.end).format("YYYY-MM-DDTHH:mm"),
+              $gte: moment(req.query.start).format(),
+              $lte: moment(req.query.end).format(),
             },
           })
             .populate("type", "name")
@@ -106,8 +108,8 @@ router.route("/search").get((req, res) => {
               $options: "i",
             },
             date: {
-              $gte: moment(req.query.start).format("YYYY-MM-DDTHH:mm"),
-              $lte: moment(req.query.end).format("YYYY-MM-DDTHH:mm"),
+              $gte: moment(req.query.start).format(),
+              $lte: moment(req.query.end).format(),
             },
           })
             .populate("type", "name")
@@ -134,7 +136,7 @@ router.route("/upcomingEvents").get((req, res) => {
           $in: user.events,
         },
         date: {
-          $gte: moment(req.query.start).format("YYYY-MM-DDTHH:mm"),
+          $gte: new Date(moment(req.query.start).toDate()),
         },
       })
         .populate("type", "name")
