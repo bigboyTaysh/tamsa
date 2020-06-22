@@ -9,11 +9,25 @@ export default class UpcomingEvents extends Component {
   constructor(props) {
     super(props);
 
+    this.checkBox = this.checkBox.bind(this);
+
     this.state = {
       username: this.props.username,
       loading: true,
       events: [],
+      completed: false,
     };
+  }
+
+  checkBox(event){
+    this.setState(
+      {
+        completed: event.target.checked,
+      },
+      function () {
+        console.log(this.state.completed);
+      }
+    );
   }
 
   componentDidMount() {
@@ -41,15 +55,26 @@ export default class UpcomingEvents extends Component {
   getEventsByDates(startDate, stopDate) {
     var dateArray = [];
 
-    this.state.events.forEach((element) => {
-      if (
-        moment(element.date) >= startDate &&
-        moment(element.date) <= stopDate
-      ) {
-        dateArray.push(element);
-      }
-    });
-
+    if(this.state.completed){
+      this.state.events.forEach((element) => {
+        if (
+          moment(element.date) >= startDate &&
+          moment(element.date) <= stopDate
+        ) {
+          dateArray.push(element);
+        }
+      });
+    } else {
+      this.state.events.forEach((element) => {
+        if (
+          moment(element.date) >= startDate &&
+          moment(element.date) <= stopDate &&
+          !element.completed
+        ) {
+          dateArray.push(element);
+        }
+      });
+    }
     return dateArray;
   }
 
@@ -68,6 +93,21 @@ export default class UpcomingEvents extends Component {
   }
 
   render() {
+   
+    var checkBox = (
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="customCheck1"
+          onChange={this.checkBox}
+        />
+        <label class="custom-control-label" for="customCheck1">
+          Zakończone
+        </label>
+      </div>
+    );
+
     if (this.state.loading) {
       var fragments = (
         <div className="message">
@@ -109,6 +149,7 @@ export default class UpcomingEvents extends Component {
 
     return (
       <React.Fragment>
+        {checkBox}
         {fragments.length > 0 ? (
           fragments
         ) : (
