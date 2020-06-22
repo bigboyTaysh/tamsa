@@ -13,8 +13,8 @@ export default class SearchEvents extends Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
 
-    var startDate = moment().startOf('day').locale("pl").format("YYYY-MM-DDTHH:mm");
-    var endDate = moment().endOf('day').locale("pl").format("YYYY-MM-DDTHH:mm");
+    var startDate = moment().startOf('day').format("YYYY-MM-DDTHH:mm");
+    var endDate = moment().endOf('day').format("YYYY-MM-DDTHH:mm");
 
     this.state = {
       username: this.props.username,

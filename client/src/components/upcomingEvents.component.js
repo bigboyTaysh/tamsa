@@ -10,11 +10,12 @@ export default class UpcomingEvents extends Component {
   constructor(props) {
     super(props);
 
+    moment.locale("pl");
+
     this.state = {
       username: this.props.username,
       loading: true,
       events: [],
-      start: moment().locale("pl").format("YYYY-MM-DDTHH:mm"),
     };
   }
 
@@ -27,7 +28,7 @@ export default class UpcomingEvents extends Component {
       .get("" + process.env.REACT_APP_API + "/events/upcomingEvents", {
         params: {
           username: this.state.username,
-          start: this.state.start,
+          start: moment().format('YYYY-MM-DDTHH:mm'),
         },
       })
       .then((res) => {
@@ -108,7 +109,7 @@ export default class UpcomingEvents extends Component {
 
     return (
       <React.Fragment>
-        {fragments.length > 0 ? fragments : <div>Brak danych</div>}
+        {fragments.length > 0 ? fragments : <div>Brak nadchodzących wydarzeń</div>}
       </React.Fragment>
     );
   }

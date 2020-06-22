@@ -25,9 +25,6 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-  console.log(moment.locale());
-  console.log(req.body.date);
-  console.log(moment(req.body.date).format("YYYY-MM-DDTHH:mm"));
   User.findOne({ username: req.body.username }, (err, user) => {
     if (user) {
       TypeOfEvent.findOne({ name: req.body.type }, (err, type) => {
