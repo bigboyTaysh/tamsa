@@ -85,8 +85,11 @@ export default class UpcomingEvents extends Component {
           .locale("pl")
           .format("dddd, DD.MM");
 
-        if (dayName === "poniedziałek") {
-          dayName = "dzisiaj";
+        if (
+          dayName.split(",")[0] ===
+          moment().startOf("day").locale("pl").format("dddd")
+        ) {
+          dayName = "dzisiaj - " + dayName;
         }
 
         if (elements.length > 0) {
@@ -106,7 +109,11 @@ export default class UpcomingEvents extends Component {
 
     return (
       <React.Fragment>
-        {fragments.length > 0 ? fragments : <div>Brak nadchodzących wydarzeń</div>}
+        {fragments.length > 0 ? (
+          fragments
+        ) : (
+          <div>Brak nadchodzących wydarzeń</div>
+        )}
       </React.Fragment>
     );
   }

@@ -57,7 +57,6 @@ export default class SearchEvents extends Component {
       start: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
       startLocale: moment(event.target.value).format(),
     }, () => {
-      console.log(this.state.startLocale);
       this.getUserEventsList();
     });
   }
@@ -67,7 +66,6 @@ export default class SearchEvents extends Component {
       end: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
       endLocale: moment(event.target.value).format(),
     }, () => {
-      console.log(moment(this.state.endLocale));
       this.getUserEventsList();
     });
   }

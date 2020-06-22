@@ -62,8 +62,6 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/search").get((req, res) => {
-  console.log(req.query.start);
-  console.log(moment(req.query.start).format());
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
       TypeOfEvent.find({ name: req.query.typename }, (err, type) => {

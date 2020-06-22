@@ -52,8 +52,6 @@ export default class AddEvent extends Component {
     this.setState({
       date: moment(event.target.value).format('YYYY-MM-DDTHH:mm'),
       locale: moment(event.target.value),
-    }, () => {
-      console.log(moment(this.state.locale));
     });
   }
 
