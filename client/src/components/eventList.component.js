@@ -51,6 +51,11 @@ export default class EventList extends Component {
       });
   }
 
+  details(id) {
+    console.log("/details/" + id);
+    this.props.history.push("/details/" + id);
+  }
+
   componentWillReceiveProps(props) {
     this.setState({
       events: props.events,
@@ -60,24 +65,13 @@ export default class EventList extends Component {
 
   openPopup(event, description) {
     if (description !== "") {
-      /*
-      $("<tr><td colspan='5'>" + description + "</td></tr>").insertAfter(
-        $(event.currentTarget).closest("tr").after().css('visibility', 'visible')
-     );
-        */
-        
-        $(event.currentTarget).next("tr").css('visibility', 'visible');
+      $(event.currentTarget).next("tr").css("visibility", "visible");
     }
   }
 
   closePopup(event, description) {
     if (description !== "") {
-      /*
-      $(event.currentTarget).next("tr").remove();
-
-      */
-
-     $(event.currentTarget).next("tr").css('visibility', 'hidden');
+      $(event.currentTarget).next("tr").css("visibility", "hidden");
     }
   }
 
@@ -113,8 +107,12 @@ export default class EventList extends Component {
           <div className="searchTable">
             <table className="table table-borderless">
               {this.state.events.map((item, id) => (
-                <tbody className="tbodyUp">
-                  
+                <tbody
+                  className="tbodyUp"
+                  onClick={() => {
+                    this.details(item._id);
+                  }}
+                >
                   <tr
                     key={id}
                     onMouseOver={(e) => {
@@ -161,9 +159,11 @@ export default class EventList extends Component {
                       </button>
                     </td>
                   </tr>
-                  <tr style={{visibility: "hidden"}}>
-                  <td colspan={5}>
-                    {item.description}
+                  <tr style={{ visibility: "hidden" }}>
+                    <td colspan={5}>
+                      {item.description === ""
+                        ? "Brak opisu"
+                        : item.description}
                     </td>
                   </tr>
                 </tbody>

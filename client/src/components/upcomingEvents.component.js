@@ -144,6 +144,7 @@ export default class UpcomingEvents extends Component {
               events={elements}
               format={"HH:mm"}
               completed={this.state.completed}
+              history={this.props.history}
             />
           );
         }

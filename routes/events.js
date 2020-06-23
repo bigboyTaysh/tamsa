@@ -170,6 +170,24 @@ router.route("/changeState").put((req, res) => {
   );
 });
 
+router.route("/event").get((req, res) => {
+  User.findOne({ username: req.query.username }, (err, user) => {
+    if (user) {
+      Event.findOne({ _id: req.query.id })
+        .populate("type", "name")
+        .exec(function (err, event) {
+          if (event) {
+            res.status(200).json(event);
+          } else {
+            res.status(200).json("Not found");
+          }
+        });
+    } else {
+      res.status(400).json("Error: " + err);
+    }
+  });
+});
+
 router.route("/delete").delete((req, res) => {
   Event.deleteOne({ _id: req.body.id }, (err, event) => {
     User.findOneAndUpdate(

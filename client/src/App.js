@@ -14,6 +14,7 @@ import Navbar from "./components/navbar.component";
 import AddEvent from "./components/addEvent.component";
 import UpcomingEvents from "./components/searchEvents.component";
 import SearchEvents from "./components/searchEvents.component";
+import EventDetail from "./components/details.component";
 
 export default class App extends Component {
   constructor(props) {
@@ -28,11 +29,13 @@ export default class App extends Component {
       this.state = {
         loggedInStatus: Cookies.get("loggedInStatus"),
         username: Cookies.get("username"),
+        history: ''
       };
     } else {
       this.state = {
         loggedInStatus: false,
         username: "",
+        history: ''
       };
     }
 
@@ -69,6 +72,7 @@ export default class App extends Component {
               <Home
                 username={this.state.username}
                 loggedInStatus={this.state.loggedInStatus}
+                history={this.state.history}
                 {...props}
               />
             )}
@@ -90,6 +94,19 @@ export default class App extends Component {
               <SearchEvents
                 username={this.state.username}
                 loggedInStatus={this.state.loggedInStatus}
+                history={this.state.history}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/details/:id"
+            exact
+            render={(props) => (
+              <EventDetail
+                username={this.state.username}
+                loggedInStatus={this.state.loggedInStatus}
+                history={this.state.history}
                 {...props}
               />
             )}

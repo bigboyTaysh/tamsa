@@ -30,7 +30,11 @@ export default class Home extends Component {
       return (
         <React.Fragment>
           <h1>Cześć {this.state.username}</h1>
-          <UpcomingEvents username={this.state.username} />
+          <UpcomingEvents
+            username={this.state.username}
+            history={this.state.history}
+            history={this.props.history}
+          />
         </React.Fragment>
       );
     } else {
