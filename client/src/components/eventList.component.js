@@ -106,12 +106,7 @@ export default class EventList extends Component {
           <div className="searchTable">
             <table className="table table-borderless">
               {this.state.events.map((item, id) => (
-                <tbody
-                  className="tbodyUp"
-                  onClick={() => {
-                    this.details(item._id);
-                  }}
-                >
+                <tbody className="tbodyUp">
                   <tr
                     key={id}
                     onMouseOver={(e) => {
@@ -142,11 +137,27 @@ export default class EventList extends Component {
                         </button>
                       )}
                     </td>
-                    <td>{item.title}</td>
-                    <td>
+                    <td
+                      onClick={() => {
+                        this.details(item._id);
+                      }}
+                    >
+                      {item.title}
+                    </td>
+                    <td
+                      onClick={() => {
+                        this.details(item._id);
+                      }}
+                    >
                       {moment(item.date).locale("pl").format(this.state.format)}
                     </td>
-                    <td>{item.type.name}</td>
+                    <td
+                      onClick={() => {
+                        this.details(item._id);
+                      }}
+                    >
+                      {item.type.name}
+                    </td>
                     <td>
                       <button
                         className="none"
