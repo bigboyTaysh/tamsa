@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/pl";
@@ -19,6 +19,10 @@ export default class EventDetail extends Component {
 
   componentDidMount() {
     this.getUserEvent();
+  }
+
+  update(id) {
+    this.props.history.push("/update/" + id);
   }
 
   getUserEvent() {
@@ -42,9 +46,17 @@ export default class EventDetail extends Component {
   render() {
     if (this.state.loading) {
       var content = (
-        <div className="message">
-          <i className="fa fa-spinner fa-spin"></i> Ładowanie..
-        </div>
+        <table className="table">
+          <tbody>
+            <tr>
+              <td>
+                <div className="message">
+                  <i className="fa fa-spinner fa-spin"></i> Ładowanie..
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       );
     } else {
       var content = (
@@ -77,6 +89,15 @@ export default class EventDetail extends Component {
                 ) : (
                   <i className="fa fa-times"></i>
                 )}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button className="btn btn-success" onClick={() => {
+                    this.update(this.state.event._id);
+                  }}>
+                    Edytuj
+                </button>
               </td>
             </tr>
           </tbody>

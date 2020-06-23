@@ -151,25 +151,6 @@ router.route("/upcomingEvents").get((req, res) => {
   });
 });
 
-router.route("/changeState").put((req, res) => {
-  console.log(req.body);
-  Event.updateOne(
-    {
-      _id: req.body.id
-    },
-    {
-      completed: req.body.completed
-    },
-    function (err, event) {
-      if (event) {
-        res.status(200).json('ok');
-      } else {
-        res.status(204).json(err);
-      }
-    }
-  );
-});
-
 router.route("/event").get((req, res) => {
   User.findOne({ username: req.query.username }, (err, user) => {
     if (user) {
@@ -184,6 +165,61 @@ router.route("/event").get((req, res) => {
         });
     } else {
       res.status(400).json("Error: " + err);
+    }
+  });
+});
+
+router.route("/changeState").put((req, res) => {
+  Event.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      completed: req.body.completed,
+    },
+    function (err, event) {
+      if (event) {
+        res.status(200).json("ok");
+      } else {
+        res.status(204).json(err);
+      }
+    }
+  );
+});
+
+router.route("/update").put((req, res) => {
+  console.log(req.body);
+  TypeOfEvent.findOne({ name: req.body.type }, (err, type) => {
+    if (type.length !== 0) {
+      console.log("robimy update");
+      Event.updateOne(
+        {
+          _id: req.body.id,
+        },
+        {
+          title: req.body.title,
+          description: req.body.description,
+          completed: req.body.completed,
+          date: moment(req.body.date).format("YYYY-MM-DDTHH:mm"),
+          type: type,
+        },
+        function (err, event) {
+          if (event) {
+            Event.findOne({ _id: req.body.id })
+              .populate("type", "name")
+              .exec(function (err, event) {
+                if (event) {
+                  res.status(200).json(event);
+                } else {
+                  res.status(200).json("Not found");
+                }
+              });
+          } else {
+            console.log("nie ok");
+            res.status(204).json(err);
+          }
+        }
+      );
     }
   });
 });

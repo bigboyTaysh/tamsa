@@ -14,7 +14,8 @@ import Navbar from "./components/navbar.component";
 import AddEvent from "./components/addEvent.component";
 import UpcomingEvents from "./components/searchEvents.component";
 import SearchEvents from "./components/searchEvents.component";
-import EventDetail from "./components/details.component";
+import EventDetail from "./components/eventDetails";
+import UpdateEvent from "./components/updateEvent.component";
 
 export default class App extends Component {
   constructor(props) {
@@ -104,6 +105,18 @@ export default class App extends Component {
             exact
             render={(props) => (
               <EventDetail
+                username={this.state.username}
+                loggedInStatus={this.state.loggedInStatus}
+                history={this.state.history}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/update/:id"
+            exact
+            render={(props) => (
+              <UpdateEvent
                 username={this.state.username}
                 loggedInStatus={this.state.loggedInStatus}
                 history={this.state.history}

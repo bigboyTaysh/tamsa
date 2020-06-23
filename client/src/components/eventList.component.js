@@ -52,7 +52,6 @@ export default class EventList extends Component {
   }
 
   details(id) {
-    console.log("/details/" + id);
     this.props.history.push("/details/" + id);
   }
 

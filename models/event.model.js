@@ -24,10 +24,4 @@ const eventSchema = new Schema ({
     timestamps: true,
 });
 
-eventSchema.pre('delete', function(next) {
-    // 'this' is the client being removed. Provide callbacks here if you want
-    // to be notified of the calls' result.
-    
-});
-
 module.exports = mongoose.model('Event', eventSchema);
