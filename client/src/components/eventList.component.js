@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/pl";
+import $ from "jquery";
 
 export default class EventList extends Component {
   constructor(props) {
@@ -33,16 +34,15 @@ export default class EventList extends Component {
             }
           });
 
-        if(this.state.completed || this.state.completed === undefined){
+        if (this.state.completed || this.state.completed === undefined) {
           this.setState({
             events: array,
           });
         } else {
           this.setState({
-            events: array.filter(x=> x.completed === this.state.completed),
+            events: array.filter((x) => x.completed === this.state.completed),
           });
         }
-
       })
       .catch((error) => {
         this.setState({
@@ -53,9 +53,32 @@ export default class EventList extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-       events: props.events,
-       completed: props.completed
-      });
+      events: props.events,
+      completed: props.completed,
+    });
+  }
+
+  openPopup(event, description) {
+    if (description !== "") {
+      /*
+      $("<tr><td colspan='5'>" + description + "</td></tr>").insertAfter(
+        $(event.currentTarget).closest("tr").after().css('visibility', 'visible')
+     );
+        */
+        
+        $(event.currentTarget).next("tr").css('visibility', 'visible');
+    }
+  }
+
+  closePopup(event, description) {
+    if (description !== "") {
+      /*
+      $(event.currentTarget).next("tr").remove();
+
+      */
+
+     $(event.currentTarget).next("tr").css('visibility', 'hidden');
+    }
   }
 
   handleDelete(id) {
@@ -87,51 +110,66 @@ export default class EventList extends Component {
         {this.state.events.length === 0 ? (
           <div>Brak zadań</div>
         ) : (
-          <table>
-            <tbody>
-              {this.state.events.map((item) => (
-                <tr key={item._id}>
-                  <td>
-                    {item.completed ? (
+          <div className="searchTable">
+            <table className="table table-borderless">
+              {this.state.events.map((item, id) => (
+                <tbody className="tbodyUp">
+                  
+                  <tr
+                    key={id}
+                    onMouseOver={(e) => {
+                      this.openPopup(e, item.description);
+                    }}
+                    onMouseOut={(e) => {
+                      this.closePopup(e, item.description);
+                    }}
+                  >
+                    <td>
+                      {item.completed ? (
+                        <button
+                          className="none"
+                          onClick={() => {
+                            this.handleChangeState(item._id, item.completed);
+                          }}
+                        >
+                          <i className="fa fa-check"></i>
+                        </button>
+                      ) : (
+                        <button
+                          className="none"
+                          onClick={() => {
+                            this.handleChangeState(item._id, item.completed);
+                          }}
+                        >
+                          <i className="fa fa-times"></i>
+                        </button>
+                      )}
+                    </td>
+                    <td>{item.title}</td>
+                    <td>
+                      {moment(item.date).locale("pl").format(this.state.format)}
+                    </td>
+                    <td>{item.type.name}</td>
+                    <td>
                       <button
                         className="none"
                         onClick={() => {
-                          this.handleChangeState(item._id, item.completed);
+                          this.handleDelete(item._id);
                         }}
                       >
-                        <i className="fa fa-check"></i>
+                        <i className="fa fa-trash"></i>
                       </button>
-                    ) : (
-                      <button
-                        className="none"
-                        onClick={() => {
-                          this.handleChangeState(item._id, item.completed);
-                        }}
-                      >
-                        <i className="fa fa-times"></i>
-                      </button>
-                    )}
-                  </td>
-                  <td>{item.title}</td>
-                  <td>{item.description}</td>
-                  <td>
-                    {moment(item.date).locale("pl").format(this.state.format)}
-                  </td>
-                  <td>{item.type.name}</td>
-                  <td>
-                    <button
-                      className="none"
-                      onClick={() => {
-                        this.handleDelete(item._id);
-                      }}
-                    >
-                      <i className="fa fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                  <tr style={{visibility: "hidden"}}>
+                  <td colspan={5}>
+                    {item.description}
+                    </td>
+                  </tr>
+                </tbody>
               ))}
-            </tbody>
-          </table>
+            </table>
+          </div>
         )}
       </React.Fragment>
     );

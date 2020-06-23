@@ -41,3 +41,29 @@
   border: none;
   background-color: transparent;
 }
+
+html {
+  overflow-y: SCROLL;
+  overflow-x: HIDDEN;
+  height: 100%;
+}
+
+.table {
+  position: "relative",
+}
+
+.table tr{
+  cursor: pointer;
+}
+
+.table td{
+  text-align: center;
+}
+
+.table .tbodyUp{
+  border-top: solid 1px black;
+}
+
+body {
+  padding-bottom: 50px;
+}
