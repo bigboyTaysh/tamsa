@@ -231,8 +231,6 @@ export default class UpdateEvent extends Component {
       );
     }
 
-    console.log(content);
-
     if (this.state.loggedInStatus) {
       return <React.Fragment>{ content }</React.Fragment>
     } else {
