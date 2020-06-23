@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#floatbar {
+  position:relative;
+}
+
+.popup {
+  position:absolute;
+  top:10px;
+  left:0px;
+  height:30px;
+  background:#ccc;
+  display:none;
+}

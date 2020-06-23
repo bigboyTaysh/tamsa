@@ -37,6 +37,10 @@
   }
 }
 
+body{
+  min-height: 100%;
+}
+
 .none {
   border: none;
   background-color: transparent;

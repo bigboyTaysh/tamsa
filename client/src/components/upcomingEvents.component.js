@@ -20,17 +20,16 @@ export default class UpcomingEvents extends Component {
     };
   }
 
-  updateEvents(events){
+  updateEvents(events) {
     this.setState({
-      events: events
+      events: events,
     });
   }
 
-  checkBox(event){
-    this.setState(
-      {
-        completed: event.target.checked,
-      });
+  checkBox(event) {
+    this.setState({
+      completed: event.target.checked,
+    });
   }
 
   componentDidMount() {
@@ -58,7 +57,7 @@ export default class UpcomingEvents extends Component {
   getEventsByDates(startDate, stopDate) {
     var dateArray = [];
 
-    if(this.state.completed){
+    if (this.state.completed) {
       this.state.events.forEach((element) => {
         if (
           moment(element.date) >= startDate &&
@@ -96,16 +95,15 @@ export default class UpcomingEvents extends Component {
   }
 
   render() {
-   
     var checkBox = (
-      <div class="custom-control custom-checkbox">
+      <div className="custom-control custom-checkbox">
         <input
           type="checkbox"
-          class="custom-control-input"
+          className="custom-control-input"
           id="customCheck1"
           onChange={this.checkBox}
         />
-        <label class="custom-control-label" for="customCheck1">
+        <label className="custom-control-label" htmlFor="customCheck1">
           Zakończone
         </label>
       </div>
@@ -155,11 +153,7 @@ export default class UpcomingEvents extends Component {
     return (
       <React.Fragment>
         {checkBox}
-        {fragments.length > 0 ? (
-          fragments
-        ) : (
-          <div>Brak nadchodzących zadań</div>
-        )}
+        {fragments.length > 0 ? fragments : <div>Brak nadchodzących zadań</div>}
       </React.Fragment>
     );
   }
