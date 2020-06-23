@@ -207,6 +207,7 @@ export default class SearchEvents extends Component {
               username={this.state.username}
               events={this.state.events}
               format={"HH:mm DD.MM.YYYY"}
+              history={this.props.history}
             />
           )}
         </React.Fragment>

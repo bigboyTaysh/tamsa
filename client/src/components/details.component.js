@@ -49,18 +49,37 @@ export default class EventDetail extends Component {
     } else {
       var content = (
         <table className="table">
-          <tr>
-            <td>{this.state.event.title}</td>
-          </tr>
-          <tr>
-            <td>{this.state.event.description}</td>
-          </tr>
-          <tr>
-            <td>{moment(this.state.event.date).locale("pl").format("HH:mm DD.MM.YYYY")}</td>
-          </tr>
-          <tr>
-            <td>{this.state.event.type.name}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>{this.state.event.title}</td>
+            </tr>
+            <tr>
+              <td>
+                {this.state.event.description === ""
+                  ? "Brak opisu"
+                  : this.state.event.description}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {moment(this.state.event.date)
+                  .locale("pl")
+                  .format("HH:mm DD.MM.YYYY")}
+              </td>
+            </tr>
+            <tr>
+              <td>{this.state.event.type.name}</td>
+            </tr>
+            <tr>
+              <td>
+                {this.state.event.completed ? (
+                  <i className="fa fa-check"></i>
+                ) : (
+                  <i className="fa fa-times"></i>
+                )}
+              </td>
+            </tr>
+          </tbody>
         </table>
       );
     }
