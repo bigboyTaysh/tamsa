@@ -84,6 +84,7 @@ router.route("/search").get((req, res) => {
               $lte: moment(req.query.end).format(),
             },
           })
+            .sort({ date: 1 })
             .populate("type", "name")
             .exec(function (err, events) {
               if (events) {
@@ -110,6 +111,7 @@ router.route("/search").get((req, res) => {
               $lte: moment(req.query.end).format(),
             },
           })
+            .sort({ date: 1 })
             .populate("type", "name")
             .exec(function (err, events) {
               if (events) {
@@ -138,6 +140,7 @@ router.route("/upcomingEvents").get((req, res) => {
         },
       })
         .populate("type", "name")
+        .sort({ date: 1 })
         .exec(function (err, events) {
           if (events) {
             res.status(200).json(events);
@@ -188,10 +191,8 @@ router.route("/changeState").put((req, res) => {
 });
 
 router.route("/update").put((req, res) => {
-  console.log(req.body);
   TypeOfEvent.findOne({ name: req.body.type }, (err, type) => {
     if (type.length !== 0) {
-      console.log("robimy update");
       Event.updateOne(
         {
           _id: req.body.id,
@@ -215,7 +216,6 @@ router.route("/update").put((req, res) => {
                 }
               });
           } else {
-            console.log("nie ok");
             res.status(204).json(err);
           }
         }

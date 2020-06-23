@@ -62,9 +62,23 @@ export default class EventList extends Component {
     });
   }
 
-  openPopup(event, description) {
-    if (description !== "") {
-      $(event.currentTarget).next("tr").css("visibility", "visible");
+  onClick(event, description) {
+    if (
+      description !== "" &&
+      $(event.currentTarget).closest("tr").next("tr").is(":hidden")
+    ) {
+      $(event.currentTarget)
+        .closest("tr")
+        .next("tr")
+        .show();
+    } else if (
+      description !== "" &&
+      $(event.currentTarget).closest("tr").next("tr").is(":visible")
+    ) {
+      $(event.currentTarget)
+        .closest("tr")
+        .next("tr")
+        .hide();
     }
   }
 
@@ -107,15 +121,7 @@ export default class EventList extends Component {
             <table className="table table-borderless">
               {this.state.events.map((item, id) => (
                 <tbody className="tbodyUp">
-                  <tr
-                    key={id}
-                    onMouseOver={(e) => {
-                      this.openPopup(e, item.description);
-                    }}
-                    onMouseOut={(e) => {
-                      this.closePopup(e, item.description);
-                    }}
-                  >
+                  <tr key={id}>
                     <td>
                       {item.completed ? (
                         <button
@@ -138,25 +144,35 @@ export default class EventList extends Component {
                       )}
                     </td>
                     <td
-                      onClick={() => {
-                        this.details(item._id);
+                      onClick={(e) => {
+                        this.onClick(e, item.description);
                       }}
                     >
                       {item.title}
                     </td>
                     <td
-                      onClick={() => {
-                        this.details(item._id);
+                      onClick={(e) => {
+                        this.onClick(e, item.description);
                       }}
                     >
                       {moment(item.date).locale("pl").format(this.state.format)}
                     </td>
                     <td
-                      onClick={() => {
-                        this.details(item._id);
+                      onClick={(e) => {
+                        this.onClick(e, item.description);
                       }}
                     >
                       {item.type.name}
+                    </td>
+                    <td>
+                      <button
+                        className="none"
+                        onClick={() => {
+                          this.details(item._id);
+                        }}
+                      >
+                        <i className="fa fa-edit"></i>
+                      </button>
                     </td>
                     <td>
                       <button
@@ -169,8 +185,8 @@ export default class EventList extends Component {
                       </button>
                     </td>
                   </tr>
-                  <tr style={{ visibility: "hidden" }}>
-                    <td colspan={5}>
+                  <tr style={{ display: "none" }}>
+                    <td className="tbodyDown" colspan={5}>
                       {item.description === ""
                         ? "Brak opisu"
                         : item.description}

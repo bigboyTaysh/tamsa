@@ -64,10 +64,18 @@ html {
   text-align: center;
 }
 
-.table .tbodyUp{
+.table tbody.tbodyUp{
   border-top: solid 1px black;
+}
+
+.table .tbodyDown{
+  border-top: solid 1px gray;
 }
 
 body {
   padding-bottom: 50px;
+}
+
+.welcome {
+  text-align: center;
 }

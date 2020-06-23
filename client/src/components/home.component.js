@@ -29,7 +29,6 @@ export default class Home extends Component {
     if (this.state.loggedInStatus) {
       return (
         <React.Fragment>
-          <h1>Cześć {this.state.username}</h1>
           <UpcomingEvents
             username={this.state.username}
             history={this.state.history}

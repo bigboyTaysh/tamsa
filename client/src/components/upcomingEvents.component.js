@@ -153,7 +153,10 @@ export default class UpcomingEvents extends Component {
 
     return (
       <React.Fragment>
-        {checkBox}
+        <div className="welcome">
+          <h1>Cześć {this.state.username}</h1>
+          {checkBox}
+        </div>
         {fragments.length > 0 ? fragments : <div>Brak nadchodzących zadań</div>}
       </React.Fragment>
     );
