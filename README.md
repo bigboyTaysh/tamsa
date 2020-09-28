@@ -3,5 +3,5 @@ https://tamsa.herokuapp.com/
 
 Terminarz spotkań i zadań 
 - wyświetlanie zdarzeń na przyszły tydzień
-- tworzenie różnego rodzaju zdarzeń
+- CRUD różnego rodzaju zdarzeń
 - wyszukiwanie
