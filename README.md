@@ -1,7 +1,14 @@
-# task and metting scheduler application - MERN stack
+# task and metting scheduler application
 https://tamsa.herokuapp.com/ 
 
-Terminarz spotkań i zadań 
-- wyświetlanie zdarzeń na przyszły tydzień
-- CRUD różnego rodzaju zdarzeń
-- wyszukiwanie
+Schedule of meetings and tasks
+- displaying events for the next week in main page
+- CRUD of various types of events
+- searching for task or meetings
+
+
+## Technology stack - MERN
+* _**MongoDB**_
+* _**Express**_
+* _**React**_
+* _**Node**_
