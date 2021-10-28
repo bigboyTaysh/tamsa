@@ -12,3 +12,4 @@ Schedule of meetings and tasks
 * _**Express**_
 * _**React**_
 * _**Node**_
+* _**Heroku**_
